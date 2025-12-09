@@ -1,0 +1,27 @@
+POPRAW
+1. Odpowiedzi z api
+3. Przerób na async (w Location nazie nie potrzebuję bo nie mam operacji async) PYTANIE CZY ROBIC
+2. dodaj obsługę błędów
+
+Przykład jednego routera — api/location.py
+from fastapi import APIRouter
+from app.schemas.location_schema import LocationUpdate
+from app.services.location_service import update_location
+
+router = APIRouter(prefix="/location", tags=["Location"])
+
+@router.post("/update")
+def update_loc(data: LocationUpdate):
+    return update_location(data)
+
+
+Przykład jednego routera — api/location.py
+from fastapi import APIRouter
+from app.schemas.location_schema import LocationUpdate
+from app.services.location_service import update_location
+
+router = APIRouter(prefix="/location", tags=["Location"])
+
+@router.post("/update")
+def update_loc(data: LocationUpdate):
+    return update_location(data)
