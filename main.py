@@ -1,8 +1,17 @@
+from dotenv import load_dotenv
+load_dotenv()
 import uvicorn
 from fastapi import FastAPI
 from Api import location_api
+from contextlib import asynccontextmanager 
+from DataBase.database_initialization import initialize_database
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await initialize_database()
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 app.include_router(location_api.router)
 

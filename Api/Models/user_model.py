@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field, EmailStr
-from uuid import UUID
 
 class UserModel(BaseModel):
     email: EmailStr
