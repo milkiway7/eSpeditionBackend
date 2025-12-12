@@ -16,7 +16,7 @@ async def initialize_database():
                 get_logger().info("Database initialization success")
                 return
         except Exception as e:
-            # if attempt < INITIALIZATION_DB_MAX_RETRIES:
-            #     await asyncio.sleep(INITIALIZATION_DB_RETRY_DELAY)
+            if attempt < INITIALIZATION_DB_MAX_RETRIES:
+                await asyncio.sleep(INITIALIZATION_DB_RETRY_DELAY)
             get_logger().error(f"Database initialization failed on attempt:{attempt + 1}. \n Error: {e}")
 

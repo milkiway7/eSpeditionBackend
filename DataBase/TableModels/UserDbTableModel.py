@@ -8,11 +8,11 @@ Base = declarative_base()
 class UserDbTableModel(Base):
     __tablename__="users"
 
-    user_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     created_at= Column(DateTime, nullable=False)
     email= Column(String(100), unique=True, nullable=False)
     password= Column(String(255), nullable=False)
     name= Column(String(50), nullable=False)
     surname= Column(String(50), nullable=False)
-    phone= Column(Integer)
+    phone_number= Column(Integer)
 

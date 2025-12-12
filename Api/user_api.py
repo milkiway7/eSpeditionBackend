@@ -1,16 +1,11 @@
-from fastapi import APIRouter
-from Models import user_model
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from DataBase.Repositories.user_repository import UserRepository
+from dependencies import get_session
 
-router = APIRouter(prefix="/user")
+router = APIRouter()
 
-@router.post("/register")
-async def login(user: user_model):
-    try:
-        # zweryfikuj dane
-        print("a")
-        # jeżeli nie poprawne zwróć wyjątek
-
-        # jeżeli poprawne dodaj do bazy danych
-    except Exception as e:
-        print(e)
-        
+@router.get("/users/{user_id}")
+async def get_user(user_id: int, session: AsyncSession = Depends(get_session)):
+    repo = UserRepository(session)
+    return await repo.get_by_id(user_id)
