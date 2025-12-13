@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 load_dotenv()
-
+import os
 import uvicorn
 from fastapi import FastAPI
 from Api import location_api, user_api
@@ -27,9 +27,17 @@ app.include_router(location_api.router)
 app.include_router(user_api.router)
 
 if __name__ == "__main__":
+
+    if os.getenv("ENVIRONMENT") == "DEV":
+        host = os.getenv("HOST")
+        port = int(os.getenv("PORT"))
+    else:
+        host = os.getenv("HOST")
+        port = int(os.environ.get("PORT", 8000))
+
     uvicorn.run(
         "main:app",
-        host="localhost",
-        port=8000,
+        host= host,
+        port= port,
         reload=True
     )
