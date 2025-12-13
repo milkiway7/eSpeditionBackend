@@ -3,3 +3,4 @@ fastapi
 sqlalchemy
 asyncpg
 asyncio
+dotenv

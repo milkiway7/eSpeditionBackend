@@ -1,38 +1,14 @@
-2025-12-12 18:51:31 - root - INFO - Database initialization start
-2025-12-12 18:51:31 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
-2025-12-12 18:51:31 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
-2025-12-12 18:51:31 - sqlalchemy.engine.Engine - INFO - select current_schema()
-2025-12-12 18:51:31 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
-2025-12-12 18:51:31 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
-2025-12-12 18:51:31 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
-2025-12-12 18:51:31 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
-2025-12-12 18:51:31 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+2025-12-13 22:37:24 - root - INFO - Database initialization start
+2025-12-13 22:37:24 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-12-13 22:37:24 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-12-13 22:37:24 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-12-13 22:37:24 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-12-13 22:37:24 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-12-13 22:37:24 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-12-13 22:37:24 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-12-13 22:37:24 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
-2025-12-12 18:51:31 - sqlalchemy.engine.Engine - INFO - [generated in 0.00498s] ('users', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
-2025-12-12 18:51:31 - root - INFO - Database initialization success
-2025-12-12 18:51:31 - sqlalchemy.engine.Engine - INFO - COMMIT
-2025-12-12 18:52:24 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
-2025-12-12 18:52:24 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
-2025-12-12 18:52:24 - sqlalchemy.engine.Engine - INFO - select current_schema()
-2025-12-12 18:52:24 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
-2025-12-12 18:52:24 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
-2025-12-12 18:52:24 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
-2025-12-12 18:52:24 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
-2025-12-12 18:52:24 - sqlalchemy.engine.Engine - INFO - SELECT users.id, users.created_at, users.email, users.password, users.name, users.surname, users.phone_number 
-FROM users 
-WHERE users.id = $1::INTEGER
-2025-12-12 18:52:24 - sqlalchemy.engine.Engine - INFO - [generated in 0.00809s] (1,)
-2025-12-12 18:52:27 - sqlalchemy.engine.Engine - INFO - ROLLBACK
-2025-12-12 18:55:03 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
-2025-12-12 18:55:03 - sqlalchemy.engine.Engine - INFO - SELECT users.id, users.created_at, users.email, users.password, users.name, users.surname, users.phone_number 
-FROM users 
-WHERE users.id = $1::INTEGER
-2025-12-12 18:55:03 - sqlalchemy.engine.Engine - INFO - [cached since 158.7s ago] (1,)
-2025-12-12 18:55:03 - sqlalchemy.engine.Engine - INFO - ROLLBACK
-2025-12-12 18:55:06 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
-2025-12-12 18:55:06 - sqlalchemy.engine.Engine - INFO - SELECT users.id, users.created_at, users.email, users.password, users.name, users.surname, users.phone_number 
-FROM users 
-WHERE users.id = $1::INTEGER
-2025-12-12 18:55:06 - sqlalchemy.engine.Engine - INFO - [cached since 161.7s ago] (1,)
-2025-12-12 18:55:06 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-12-13 22:37:24 - sqlalchemy.engine.Engine - INFO - [generated in 0.00152s] ('users', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2025-12-13 22:37:24 - root - INFO - Database initialization success
+2025-12-13 22:37:24 - sqlalchemy.engine.Engine - INFO - COMMIT
