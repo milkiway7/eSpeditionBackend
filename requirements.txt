@@ -1,7 +1,6 @@
 uvicorn
 fastapi
 sqlalchemy
-asyncpg
-psycopg2
+asyncpg # zamiast psycopg2
 asyncio
 dotenv
