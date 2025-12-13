@@ -2,5 +2,6 @@ uvicorn
 fastapi
 sqlalchemy
 asyncpg
+psycopg2
 asyncio
 dotenv
