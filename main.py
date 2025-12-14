@@ -7,14 +7,14 @@ from Api import location_api, user_api
 from contextlib import asynccontextmanager
 from DataBase.database_initialization import initialize_database
 from fastapi.middleware.cors import CORSMiddleware
-
+from Exceptions.exception_handlers import register_exception_handlers
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await initialize_database()
     yield
 
 app = FastAPI(lifespan=lifespan)
-
+register_exception_handlers(app)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -23,7 +23,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(location_api.router)
 app.include_router(user_api.router)
 
 if __name__ == "__main__":

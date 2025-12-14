@@ -1,0 +1,36 @@
+from fastapi import Request
+from fastapi.responses import JSONResponse
+from Helpers.logger import get_logger
+from .domain_exceptions import (
+    EntityNotFoundError,
+    EntityAlreadyExistsError,
+    ValidationError,
+    UnauthorizedError,
+    ForbiddenError
+)
+
+def register_exception_handlers(app):
+    @app.exception_handler(EntityNotFoundError)
+    async def entity_not_found_handler(request: Request, exc: EntityNotFoundError):
+        get_logger().warning(f"Entity not found: {exc}")
+        return JSONResponse(status_code=404, content={"detail": str(exc)})
+
+    @app.exception_handler(EntityAlreadyExistsError)
+    async def entity_already_exists_handler(request: Request, exc: EntityAlreadyExistsError):
+        get_logger().warning(f"Entity already exists: {exc}")
+        return JSONResponse(status_code=409, content={"detail": str(exc)})
+
+    @app.exception_handler(ValidationError)
+    async def validation_error_handler(request: Request, exc: ValidationError):
+        get_logger().warning(f"Validation error: {exc}")
+        return JSONResponse(status_code=400, content={"detail": str(exc)})
+
+    @app.exception_handler(UnauthorizedError)
+    async def unauthorized_error_handler(request: Request, exc: UnauthorizedError):
+        get_logger().warning(f"Unauthorized: {exc}")
+        return JSONResponse(status_code=401, content={"detail": str(exc)})
+
+    @app.exception_handler(ForbiddenError)
+    async def forbidden_error_handler(request: Request, exc: ForbiddenError):
+        get_logger().warning(f"Forbidden: {exc}")
+        return JSONResponse(status_code=403, content={"detail": str(exc)})

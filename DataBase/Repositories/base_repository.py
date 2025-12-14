@@ -1,6 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy import select, update as sql_update, delete as sql_delete
 from typing import Type, TypeVar, Generic, Optional, List
+from Helpers.logger import get_logger
 
 T = TypeVar("T")
 
@@ -8,13 +10,23 @@ class BaseRepository(Generic[T]):
     def __init__(self, session: AsyncSession, model: Type[T]):
         self.session = session
         self.model = model
+        self.logger = get_logger(__class__.__name__)
 
-    # ----------- CREATE -----------
     async def add(self, obj: T) -> T:
-        self.session.add(obj)
-        await self.session.commit()
-        await self.session.refresh(obj)
-        return obj
+        try:
+            self.session.add(obj)
+            await self.session.commit()
+            await self.session.refresh(obj)
+            return obj
+        
+        except IntegrityError as e:
+            await self.session.rollback()
+            self.logger.error("Integrity error while adding object.")
+            raise
+
+        except SQLAlchemyError as e:
+            await self.session.rollback()
+            self.logger.error("Database error.")
 
     # ----------- READ -----------
     async def get(self, id: int) -> Optional[T]:

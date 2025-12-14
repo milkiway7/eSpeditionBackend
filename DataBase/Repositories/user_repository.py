@@ -1,17 +1,20 @@
 from DataBase.Repositories.base_repository import BaseRepository
 from DataBase.TableModels.UserDbTableModel import UserDbTableModel
 from Helpers.mapper import UserMapper
+from Exceptions.domain_exceptions import EntityNotFoundError
 
 class UserRepository(BaseRepository[UserDbTableModel]):
     def __init__(self, session):
         super().__init__(session, UserDbTableModel)
-
-    async def get_by_email(self, email: str):
-        users = await self.filter(email=email)
-        return users[0] if users else None
     
     async def get_by_id(self, id: int):
         users = await self.filter(id=id)
+        if not users:
+            raise EntityNotFoundError("User",id)
+        return users[0]
+    
+    async def get_by_email(self, email: str):
+        users = await self.filter(email=email)
         return users[0] if users else None
     
     async def add_user(self, new_user: UserDbTableModel):
