@@ -14,5 +14,5 @@ class UserDbTableModel(Base):
     password= Column(String(255), nullable=False)
     name= Column(String(50), nullable=False)
     surname= Column(String(50), nullable=False)
-    phone_number= Column(Integer)
+    phone_number= Column(String(20))
 
