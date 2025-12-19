@@ -12,23 +12,24 @@ class BaseRepository(Generic[T]):
         self.model = model
         self.logger = get_logger(__class__.__name__)
 
-    async def add(self, obj: T) -> T:
+    async def _commit(self):
         try:
-            self.session.add(obj)
             await self.session.commit()
-            await self.session.refresh(obj)
-            return obj
-        
         except IntegrityError as e:
             await self.session.rollback()
-            self.logger.error("Integrity error while adding object.")
+            self.logger.error(e, exc_info=True)
             raise
-
         except SQLAlchemyError as e:
             await self.session.rollback()
-            self.logger.error("Database error.")
+            self.logger.error(e, exc_info=True)
+            raise
 
-    # ----------- READ -----------
+    async def add(self, obj: T) -> T:
+        self.session.add(obj)
+        await self._commit()
+        await self.session.refresh(obj)
+        return obj
+
     async def get(self, id: int) -> Optional[T]:
         result = await self.session.execute(
             select(self.model).where(self.model.id == id)
@@ -44,38 +45,30 @@ class BaseRepository(Generic[T]):
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
 
-    # ----------- UPDATE -----------
     async def update(self, id: int, data: dict) -> Optional[T]:
         result = await self.session.execute(
             select(self.model).where(self.model.id == id)
         )
         obj = result.scalars().first()
-
         if not obj:
             return None
-
         for key, value in data.items():
             setattr(obj, key, value)
-
-        await self.session.commit()
+        await self._commit()
         await self.session.refresh(obj)
         return obj
 
-    # ----------- DELETE -----------
     async def delete(self, id: int) -> bool:
         result = await self.session.execute(
             select(self.model).where(self.model.id == id)
         )
         obj = result.scalars().first()
-
         if not obj:
             return False
-
         await self.session.delete(obj)
-        await self.session.commit()
+        await self._commit()
         return True
 
-    # ----------- UTILITIES -----------
     async def count(self) -> int:
         result = await self.session.execute(select(self.model))
         return len(result.scalars().all())
