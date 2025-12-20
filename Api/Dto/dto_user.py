@@ -16,3 +16,8 @@ class DtoReadUser(BaseModel):
     created_at: datetime
     model_config = {"from_attributes": True}
 
+class DtoUpdateUser(BaseModel):
+    name: Optional[str]= Field(default=None, min_length=2)
+    surname: Optional[str]=Field(default=None, min_length=2)
+    password: Optional[str]= Field(default=None, min_length=7)
+    email: Optional[EmailStr]= None

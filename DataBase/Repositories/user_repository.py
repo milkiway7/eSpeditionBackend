@@ -12,17 +12,31 @@ class UserRepository(BaseRepository[UserDbTableModel]):
         user = await self.filter(id=id)
         if not user:
             raise EntityNotFoundError("User",id)
-        return UserMapper.read_model_to_dto(user[0])
+        return user[0]
     
     async def get_by_email(self, email: str):
         user = await self.filter(email=email)
         if not user:
             raise EntityNotFoundError("User",email)
-        return UserMapper.read_model_to_dto(user[0])
+        return user[0]
     
     async def add_user(self, new_user: UserDbTableModel):
         try:
             created_user = await self.add(new_user)
-            return UserMapper.read_model_to_dto(created_user)
+            return created_user
         except IntegrityError as e:
             raise EntityAlreadyExistsError("User", "email", new_user.email)
+        
+    async def update_user(self, id: int, data: dict):
+        user = await self.update(id, data)
+        if not user:
+            raise EntityNotFoundError("User",id)
+        return user
+    
+    async def delete_user(self, id: int):
+        deleted_user = await self.delete(id)
+        if not deleted_user:
+            raise EntityNotFoundError("User",id)
+        return deleted_user 
+        
+        

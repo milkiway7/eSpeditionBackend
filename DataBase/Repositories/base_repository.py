@@ -64,10 +64,10 @@ class BaseRepository(Generic[T]):
         )
         obj = result.scalars().first()
         if not obj:
-            return False
+            return None
         await self.session.delete(obj)
         await self._commit()
-        return True
+        return obj
 
     async def count(self) -> int:
         result = await self.session.execute(select(self.model))
