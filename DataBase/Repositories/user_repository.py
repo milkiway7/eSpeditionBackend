@@ -38,5 +38,7 @@ class UserRepository(BaseRepository[UserDbTableModel]):
         if not deleted_user:
             raise EntityNotFoundError("User",id)
         return deleted_user 
+    
+    
         
         

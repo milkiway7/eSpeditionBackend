@@ -13,7 +13,6 @@ class DtoReadUser(BaseModel):
     email: str
     name: str
     surname: str
-    created_at: datetime
     model_config = {"from_attributes": True}
 
 class DtoUpdateUser(BaseModel):
@@ -21,3 +20,7 @@ class DtoUpdateUser(BaseModel):
     surname: Optional[str]=Field(default=None, min_length=2)
     password: Optional[str]= Field(default=None, min_length=7)
     email: Optional[EmailStr]= None
+
+class DtoLoginUser(BaseModel):
+    email: EmailStr
+    password: str= Field(min_length=7)
