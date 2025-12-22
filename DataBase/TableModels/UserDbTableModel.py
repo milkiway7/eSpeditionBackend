@@ -1,7 +1,5 @@
 from sqlalchemy import Column, Integer, String, Numeric, Text, DateTime
 from sqlalchemy.orm import declarative_base
-from sqlalchemy.dialects.postgresql import UUID
-import uuid
 
 Base = declarative_base()
 
@@ -14,5 +12,4 @@ class UserDbTableModel(Base):
     password= Column(String(255), nullable=False)
     name= Column(String(50), nullable=False)
     surname= Column(String(50), nullable=False)
-    phone_number= Column(Integer)
 

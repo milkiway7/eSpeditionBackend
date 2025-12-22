@@ -4,3 +4,6 @@ sqlalchemy
 asyncpg # zamiast psycopg2
 asyncio
 dotenv
+passlib[argon2] #encrypt password
+pydantic[email] 
+pyjwt[crypto]
