@@ -17,7 +17,7 @@ class AuthenticationService:
             raise UnauthorizedError("Invalid credentials")
         dto_user = UserMapper.read_model_to_dto(user)
         jwt_token = self.generate_jwt(dto_user)
-        return {"access_token": jwt_token, "token_type": "bearer", "user": dto_user}
+        return {"access_token": jwt_token, "token_type": "bearer", "expires_in": ACCESS_TOKEN_EXPIRE_MINUTES, "user": dto_user}
     
     def generate_jwt(self, dto_user):
         to_encode = dto_user.model_dump()

@@ -48,8 +48,4 @@ async def login_user(dto_user: DtoLoginUser, session: AsyncSession = Depends(get
     repo = UserRepository(session)
     return await AuthenticationService().authenticate(dto_user, repo)
 
-# @router.login("/users/login")
-# async def login_user():
-#     pass
-
     
