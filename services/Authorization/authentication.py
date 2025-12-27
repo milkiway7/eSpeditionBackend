@@ -1,4 +1,4 @@
-from Api.Dto.dto_user import DtoLoginUser
+from Api.UsersApi.dto_user import DtoLoginUser
 from DataBase.Repositories.user_repository import UserRepository
 from Api.UsersApi.password_encryption import verify_password
 from Exceptions.domain_exceptions import UnauthorizedError
