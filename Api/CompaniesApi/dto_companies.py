@@ -14,7 +14,7 @@ class DtoCreateCompany(BaseModel):
     company_name: str= Field(min_length=2, max_length=100)
 
 class DtoReadCompany(BaseModel):
-    company_id: int
+    id: int
     company_name: str
     country: str
     model_config = {"from_attributes": True}

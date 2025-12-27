@@ -7,7 +7,7 @@ class CompaniesRepository(BaseRepository[CompaniesDbTableModel]):
     def __init__(self, session):
         super().__init__(session, CompaniesDbTableModel)
 
-    async def add_company(self, new_company: CompaniesDbTableModel):
+    async def add_company(self, new_company: CompaniesDbTableModel) -> CompaniesDbTableModel:
         try:
             created_company = await self.add(new_company)
             return created_company
@@ -19,4 +19,16 @@ class CompaniesRepository(BaseRepository[CompaniesDbTableModel]):
                 raise EntityAlreadyExistsError("Company", "vat_eu", new_company.vat_eu)
             elif 'uq_company_name' in msg:
                 raise EntityAlreadyExistsError("Company", "company_name", new_company.company_name)
+    
+    async def get_by_id(self, company_id: int) -> CompaniesDbTableModel:
+        company = await self.get(company_id)
+        if not company:
+            raise EntityNotFoundError("Company", "id", company_id)
+        return company
+        
+    async def get_by_company_name(self, company_name: str) -> CompaniesDbTableModel:
+        company = await self.filter(company_name=company_name)
+        if not company:
+            raise EntityNotFoundError("Company", "company_name", company_name)
+        return company
 

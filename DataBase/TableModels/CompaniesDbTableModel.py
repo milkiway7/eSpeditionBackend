@@ -12,7 +12,7 @@ class CompaniesDbTableModel(Base):
         UniqueConstraint('company_name', name='uq_company_name'),
     )
 
-    company_id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     created_at= Column(DateTime, nullable=False)
     updated_at= Column(DateTime, nullable=True)
     nip= Column(String(10), nullable=False)
