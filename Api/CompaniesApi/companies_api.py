@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from Api.CompaniesApi.dto_companies import DtoCreateCompany
+from Api.CompaniesApi.dto_companies import DtoCreateCompany,DtoUpdateCompany
 from dependencies import get_session
 from DataBase.Repositories.companies_repository import CompaniesRepository
 from Api.CompaniesApi.companies_mapper import CompaniesMapper
@@ -24,3 +24,15 @@ async def get_company_by_name(company_name: str, session: AsyncSession = Depends
     repo = CompaniesRepository(session)
     company = await repo.get_by_company_name(company_name)
     return {"Company:": CompaniesMapper.read_model_to_dto(company[0])}
+
+@router.delete("/companies/delete/{company_id}")
+async def delete_company(company_id: int, session: AsyncSession = Depends(get_session)):
+    repo = CompaniesRepository(session)
+    deleted_company = await repo.delete_company(company_id)
+    return {"Company deleted:": CompaniesMapper.read_model_to_dto(deleted_company)}
+
+@router.put("/companies/update/{company_id}")
+async def update_company(company_id: int, company: DtoUpdateCompany, session: AsyncSession = Depends(get_session)):
+    repo = CompaniesRepository(session)
+    updated_company = await repo.update_company(company_id, company.model_dump(exclude_unset=True))
+    return {"Company updated:": CompaniesMapper.read_model_to_dto(updated_company)}

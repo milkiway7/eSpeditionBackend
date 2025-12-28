@@ -31,4 +31,16 @@ class CompaniesRepository(BaseRepository[CompaniesDbTableModel]):
         if not company:
             raise EntityNotFoundError("Company", "company_name", company_name)
         return company
+    
+    async def delete_company(self, company_id: int) -> CompaniesDbTableModel:
+        deleted_company = await self.delete(company_id)
+        if not deleted_company:
+            raise EntityNotFoundError("Company", "id", company_id)
+        return deleted_company
+    
+    async def update_company(self, company_id: int, data: dict) -> CompaniesDbTableModel:
+        updated_company = await self.update(company_id, data)
+        if not updated_company:
+            raise EntityNotFoundError("Company", "id", company_id)
+        return updated_company
 
