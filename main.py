@@ -1,13 +1,15 @@
 from dotenv import load_dotenv
+
 load_dotenv()
 import os
 import uvicorn
 from fastapi import FastAPI
-from Api import location_api, user_api
 from contextlib import asynccontextmanager
 from DataBase.database_initialization import initialize_database
 from fastapi.middleware.cors import CORSMiddleware
 from Exceptions.exception_handlers import register_exception_handlers
+from Api.UsersApi import user_api
+from Api.CompaniesApi import companies_api
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -27,6 +29,7 @@ app.add_middleware(
 )
 
 app.include_router(user_api.router)
+app.include_router(companies_api.router)
 
 if __name__ == "__main__":
 

@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from DataBase.Repositories.user_repository import UserRepository
 from dependencies import get_session
-from Api.Dto.dto_user import DtoCreateUser, DtoUpdateUser, DtoLoginUser
-from Helpers.mapper import UserMapper
+from Api.UsersApi.dto_user import DtoCreateUser, DtoUpdateUser, DtoLoginUser
+from Api.UsersApi.user_mapper import UserMapper
 from Services.Authorization.authentication import AuthenticationService
 
 router = APIRouter()
@@ -18,7 +18,7 @@ async def get_user(user_id: int, session: AsyncSession = Depends(get_session)):
 async def get_user_by_email(email: str, session: AsyncSession = Depends(get_session)):
     repo = UserRepository(session)
     user = await repo.get_by_email(email)
-    return {"User feched by email:", UserMapper.read_model_to_dto(user)}
+    return {"User feched by email:": UserMapper.read_model_to_dto(user)}
 
 @router.post("/users/add")
 async def add_user(dto_user: DtoCreateUser, session: AsyncSession = Depends(get_session)):

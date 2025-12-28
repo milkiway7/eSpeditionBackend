@@ -1,12 +1,12 @@
-from Api.Dto.dto_user import DtoLoginUser
+from Api.UsersApi.dto_user import DtoLoginUser
 from DataBase.Repositories.user_repository import UserRepository
-from Helpers.password_encryption import verify_password
+from Api.UsersApi.password_encryption import verify_password
 from Exceptions.domain_exceptions import UnauthorizedError
 from datetime import datetime, timedelta
 import jwt 
-from Helpers.mapper import UserMapper
-
-SECRET_KEY = "MY_SUPER_SECRET_KEY"
+from Api.UsersApi.user_mapper import UserMapper
+import os
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

@@ -1,6 +1,5 @@
 from DataBase.Repositories.base_repository import BaseRepository
 from DataBase.TableModels.UserDbTableModel import UserDbTableModel
-from Helpers.mapper import UserMapper
 from Exceptions.domain_exceptions import EntityNotFoundError, EntityAlreadyExistsError
 from sqlalchemy.exc import IntegrityError
 

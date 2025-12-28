@@ -1,7 +1,7 @@
-from Api.Dto.dto_user import DtoCreateUser, DtoReadUser
+from Api.UsersApi.dto_user import DtoCreateUser, DtoReadUser
 from DataBase.TableModels.UserDbTableModel import UserDbTableModel
 from datetime import datetime
-from Helpers.password_encryption import hash_password
+from Api.UsersApi.password_encryption import hash_password
 
 class UserMapper:
 
