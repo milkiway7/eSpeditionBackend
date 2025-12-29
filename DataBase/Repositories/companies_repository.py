@@ -39,8 +39,16 @@ class CompaniesRepository(BaseRepository[CompaniesDbTableModel]):
         return deleted_company
     
     async def update_company(self, company_id: int, data: dict) -> CompaniesDbTableModel:
-        updated_company = await self.update(company_id, data)
-        if not updated_company:
-            raise EntityNotFoundError("Company", "id", company_id)
-        return updated_company
-
+        try:
+            updated_company = await self.update(company_id, data)
+            if not updated_company:
+                raise EntityNotFoundError("Company", "id", company_id)
+            return updated_company
+        except IntegrityError as e:
+            msg = str(e.orig)
+            if 'uq_company_nip' in msg:
+                raise EntityAlreadyExistsError("Company", "nip", data.get("nip"))
+            elif 'uq_company_vat_eu' in msg:
+                raise EntityAlreadyExistsError("Company", "vat_eu", data.get("vat_eu"))
+            elif 'uq_company_name' in msg:
+                raise EntityAlreadyExistsError("Company", "company_name", data.get("company_name"))
