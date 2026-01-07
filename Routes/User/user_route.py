@@ -22,7 +22,6 @@ async def get_user_by_email(email: str, session: AsyncSession = Depends(get_sess
 
 @router.post("/users/add")
 async def add_user(dto_user: DtoCreateUser, session: AsyncSession = Depends(get_session)):
-    # fetch user with specific email to check if exsists
     db_user = UserMapper.create_dto_to_model(dto_user)
     repo = UserRepository(session)
     created_user = await repo.add_user(db_user)
