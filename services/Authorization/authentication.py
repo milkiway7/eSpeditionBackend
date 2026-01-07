@@ -1,10 +1,10 @@
-from Api.UsersApi.dto_user import DtoLoginUser
+from Routes.User.dto_user import DtoLoginUser
 from DataBase.Repositories.user_repository import UserRepository
-from Api.UsersApi.password_encryption import verify_password
+from Routes.User.password_encryption import verify_password
 from Exceptions.domain_exceptions import UnauthorizedError
 from datetime import datetime, timedelta
 import jwt 
-from Api.UsersApi.user_mapper import UserMapper
+from Routes.User.user_mapper import UserMapper
 import os
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
@@ -25,7 +25,3 @@ class AuthenticationService:
         to_encode.update({"exp": int(expire.timestamp())})
         token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
         return token
-
-
-
-

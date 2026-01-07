@@ -8,8 +8,8 @@ from contextlib import asynccontextmanager
 from DataBase.database_initialization import initialize_database
 from fastapi.middleware.cors import CORSMiddleware
 from Exceptions.exception_handlers import register_exception_handlers
-from Api.UsersApi import user_api
-from Api.CompaniesApi import companies_api
+from Routes.User import user_route
+from Routes.Company import company_route
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -28,8 +28,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(user_api.router)
-app.include_router(companies_api.router)
+app.include_router(user_route.router)
+app.include_router(company_route.router)
 
 if __name__ == "__main__":
 

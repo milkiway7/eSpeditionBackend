@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from Api.CompaniesApi.dto_companies import DtoCreateCompany,DtoUpdateCompany
+from Routes.Company.dto_company import DtoCreateCompany,DtoUpdateCompany
 from dependencies import get_session
 from DataBase.Repositories.companies_repository import CompaniesRepository
-from Api.CompaniesApi.companies_mapper import CompaniesMapper
+from Routes.Company.company_mapper import CompaniesMapper
+
 router = APIRouter()
 
 @router.post("/companies/create")
