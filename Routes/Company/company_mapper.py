@@ -1,5 +1,5 @@
 from DataBase.TableModels.CompaniesDbTableModel import CompaniesDbTableModel
-from Routes.Company.dto_company import DtoCreateCompany,DtoReadCompany
+from Routes.Company.company_dto import DtoCreateCompany,DtoReadCompany
 from datetime import datetime
 
 class CompaniesMapper:

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from DataBase.Repositories.user_repository import UserRepository
 from dependencies import get_session
-from Routes.User.dto_user import DtoCreateUser, DtoUpdateUser, DtoLoginUser
+from Routes.User.user_dto import DtoCreateUser, DtoUpdateUser, DtoLoginUser
 from Routes.User.user_mapper import UserMapper
 from Services.Authorization.authentication import AuthenticationService
 
