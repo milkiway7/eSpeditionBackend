@@ -1,5 +1,5 @@
 from enum import Enum
 
-class RegistrationStatus(Enum):
+class AccountType(Enum):
     SHIPPER = "SHIPPER"
     CARRIER = "CARRIER"
