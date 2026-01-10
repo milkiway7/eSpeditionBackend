@@ -26,3 +26,7 @@ class UnauthorizedError(Exception):
 class ForbiddenError(Exception):
     def __init__(self, message: str = "Forbidden"):
         super().__init__(message)
+
+class ExternalServiceUnavailable(Exception):
+    def __init__(self, message: str = "External service is unavailable"):
+        super().__init__(message)
