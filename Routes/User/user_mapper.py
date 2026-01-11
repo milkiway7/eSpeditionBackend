@@ -1,4 +1,4 @@
-from Routes.User.dto_user import DtoCreateUser, DtoReadUser
+from Routes.User.user_dto import DtoCreateUser, DtoReadUser
 from DataBase.TableModels.UserDbTableModel import UserDbTableModel
 from datetime import datetime
 from Routes.User.password_encryption import hash_password

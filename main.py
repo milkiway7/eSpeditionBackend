@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from Exceptions.exception_handlers import register_exception_handlers
 from Routes.User import user_route
 from Routes.Company import company_route
+from Routes.Registration import registration_route
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -30,6 +31,7 @@ app.add_middleware(
 
 app.include_router(user_route.router)
 app.include_router(company_route.router)
+app.include_router(registration_route.router)
 
 if __name__ == "__main__":
 

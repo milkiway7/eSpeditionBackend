@@ -6,8 +6,10 @@ from .domain_exceptions import (
     EntityAlreadyExistsError,
     ValidationError,
     UnauthorizedError,
-    ForbiddenError
+    ForbiddenError,
+    ExternalServiceUnavailable
 )
+from .krs_exceptions import KrsInactiveError
 
 def register_exception_handlers(app):
     @app.exception_handler(EntityNotFoundError)
@@ -34,3 +36,13 @@ def register_exception_handlers(app):
     async def forbidden_error_handler(request: Request, exc: ForbiddenError):
         get_logger().warning(f"Forbidden: {exc}")
         return JSONResponse(status_code=403, content={"detail": str(exc)})
+    
+    @app.exception_handler(ExternalServiceUnavailable)
+    async def external_service_unavailable_handler(request: Request, exc: ExternalServiceUnavailable):
+        get_logger().error(f"External service unavailable: {exc}")
+        return JSONResponse(status_code=503, content={"detail": str(exc)})
+
+    @app.exception_handler(KrsInactiveError)
+    async def krs_inactive_error_handler(request: Request, exc: KrsInactiveError):
+        get_logger().warning(f"KRS Inactive Error: {exc}")
+        return JSONResponse(status_code=422, content={"detail": str(exc)})

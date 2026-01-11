@@ -1,15 +1,15 @@
 from DataBase.TableModels.CompaniesDbTableModel import CompaniesDbTableModel
-from Routes.Company.dto_company import DtoCreateCompany,DtoReadCompany
+from Routes.Company.company_dto import DtoCreateCompany,DtoReadCompany
 from datetime import datetime
 
 class CompaniesMapper:
 
     @staticmethod
-    def create_dto_to_model(dto: DtoCreateCompany) -> CompaniesDbTableModel:
+    def create_dto_to_model(dto: DtoCreateCompany, company_name: str) -> CompaniesDbTableModel:
         company = dto.model_dump()
         return CompaniesDbTableModel(
             **company,
-            created_at = datetime.now()
+            company_name=company_name
         )
     
     @staticmethod

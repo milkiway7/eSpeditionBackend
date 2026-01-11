@@ -7,3 +7,4 @@ dotenv
 passlib[argon2] #encrypt password
 pydantic[email] 
 pyjwt[crypto]
+httpx

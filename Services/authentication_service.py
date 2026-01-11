@@ -1,4 +1,4 @@
-from Routes.User.dto_user import DtoLoginUser
+from Routes.User.user_dto import DtoLoginUser
 from DataBase.Repositories.user_repository import UserRepository
 from Routes.User.password_encryption import verify_password
 from Exceptions.domain_exceptions import UnauthorizedError
