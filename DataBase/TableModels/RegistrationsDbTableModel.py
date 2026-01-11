@@ -25,9 +25,9 @@ class RegistrationsDbTableModel(Base):
     email: Mapped[str] = mapped_column(String(255), nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     surname: Mapped[str] = mapped_column(String(100), nullable=False)
-    # min_length=8, !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     password: Mapped[str] = mapped_column(String(255), nullable=False)
     nip: Mapped[str] = mapped_column(String(10), nullable=False)
+    company_name: Mapped[str] = mapped_column(String(255), nullable=False)
     user_phone: Mapped[str] = mapped_column(String(15), nullable=False)
     registration_status: Mapped[RegistrationStatus] = mapped_column(SAEnum(RegistrationStatus), nullable=False)
     account_type: Mapped[AccountType | None] = mapped_column(SAEnum(AccountType), nullable=True)
