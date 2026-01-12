@@ -15,9 +15,10 @@ class RegistrationReadDTO(BaseModel):
     nip: str
 
 class CompanyDetailsDTO(BaseModel):
-    country: str
-    street: str
-    building_number: str
-    postal_code: str
+    company_country: str
+    company_city: str
+    company_street: str
+    company_building_number: str
+    company_postal_code: str
     company_email: EmailStr
     company_phone: str

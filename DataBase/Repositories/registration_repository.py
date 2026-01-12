@@ -26,10 +26,16 @@ class RegistrationsRepository(BaseRepository[RegistrationsDbTableModel]):
             else:
                 raise e
     
-    async def get_by_registration_id(self, registration_id: UUID) -> bool:
+    async def get_by_registration_id(self, registration_id: UUID) -> RegistrationsDbTableModel:
         query = await self.session.execute(
             select(self.model).where(self.model.registration_id == registration_id)
         )
-        if query.scalar_one_or_none() is None:
-            return False
-        return True
+        return query.scalar_one_or_none()
+    
+    async def update_company_details(self, registration_to_update: RegistrationsDbTableModel, data: dict) -> RegistrationsDbTableModel:
+        for key, value in data.items():
+            setattr(registration_to_update, key, value)
+        await self._commit()
+        await self.session.refresh(registration_to_update)
+        return registration_to_update
+    
