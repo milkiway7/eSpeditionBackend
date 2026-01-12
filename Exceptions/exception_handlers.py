@@ -7,9 +7,9 @@ from .domain_exceptions import (
     ValidationError,
     UnauthorizedError,
     ForbiddenError,
-    ExternalServiceUnavailable
+    ExternalServiceUnavailable,
 )
-from .krs_exceptions import KrsInactiveError
+from .registration_exceptions import KrsInactiveError, RegistrationNotFoundError
 
 def register_exception_handlers(app):
     @app.exception_handler(EntityNotFoundError)
@@ -46,3 +46,8 @@ def register_exception_handlers(app):
     async def krs_inactive_error_handler(request: Request, exc: KrsInactiveError):
         get_logger().warning(f"KRS Inactive Error: {exc}")
         return JSONResponse(status_code=422, content={"detail": str(exc)})
+    
+    @app.exception_handler(RegistrationNotFoundError)
+    async def registration_not_found_error_handler(request: Request, exc: RegistrationNotFoundError):
+        get_logger().warning(f"Registration not found: {exc}")
+        return JSONResponse(status_code=404, content={"detail": str(exc)})

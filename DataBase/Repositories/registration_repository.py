@@ -1,7 +1,9 @@
 from DataBase.TableModels.RegistrationsDbTableModel import RegistrationsDbTableModel
 from DataBase.Repositories.base_repository import BaseRepository
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import select   
 from Exceptions.domain_exceptions import EntityAlreadyExistsError
+from uuid import UUID
 
 class RegistrationsRepository(BaseRepository[RegistrationsDbTableModel]):
     def __init__(self, session):
@@ -23,3 +25,11 @@ class RegistrationsRepository(BaseRepository[RegistrationsDbTableModel]):
                 raise EntityAlreadyExistsError("Registration", "user_phone", new_registration.user_phone)
             else:
                 raise e
+    
+    async def get_by_registration_id(self, registration_id: UUID) -> bool:
+        query = await self.session.execute(
+            select(self.model).where(self.model.registration_id == registration_id)
+        )
+        if query.scalar_one_or_none() is None:
+            return False
+        return True

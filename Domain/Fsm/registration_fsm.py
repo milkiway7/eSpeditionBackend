@@ -8,6 +8,7 @@ ALLOWED_TRANSITIONS = {
         RegistrationStatus.ROLE_SELECTED
     },
     RegistrationStatus.ROLE_SELECTED: {
+        # CARRIER STATUS !!
         RegistrationStatus.COMPLETED,
         RegistrationStatus.FAILED
     },

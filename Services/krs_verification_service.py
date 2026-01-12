@@ -2,7 +2,7 @@ import httpx
 import os
 from datetime import datetime
 from Exceptions.domain_exceptions import EntityNotFoundError, ExternalServiceUnavailable
-from Exceptions.krs_exceptions import KrsInactiveError
+from Exceptions.registration_exceptions import KrsInactiveError
 from pydantic import BaseModel
 
 COMPANY_ACTIVE_STATUS = "Czynny"
