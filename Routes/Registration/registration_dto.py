@@ -22,3 +22,6 @@ class CompanyDetailsDTO(BaseModel):
     company_postal_code: str
     company_email: EmailStr
     company_phone: str
+
+class AccountType(BaseModel):
+    account_type: str
