@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, DateTime, UniqueConstraint
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import String, DateTime, UniqueConstraint
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from datetime import datetime
 
 Base = declarative_base()
 
@@ -12,16 +13,16 @@ class CompaniesDbTableModel(Base):
         UniqueConstraint('company_name', name='uq_company_name'),
     )
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    created_at= Column(DateTime, nullable=False)
-    updated_at= Column(DateTime, nullable=True)
-    nip= Column(String(10), nullable=False)
-    vat_eu= Column(String(20), nullable=True)
-    country= Column(String(50), nullable=False)
-    city= Column(String(100), nullable=False)
-    postal_code= Column(String(20), nullable=False)
-    street= Column(String(100), nullable=False)
-    building_number= Column(String(10), nullable=False)
-    website= Column(String(100), nullable=True)
-    phone_number= Column(String(15), nullable=False)
-    company_name= Column(String(100), nullable=False)
+    id:Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    created_at:Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now)
+    updated_at:Mapped[datetime]= mapped_column(DateTime, nullable=True, onupdate=datetime.now)
+    nip:Mapped[str]= mapped_column(String(10), nullable=False)
+    name:Mapped[str]= mapped_column(String(200), nullable=False)
+    country:Mapped[str]= mapped_column(String(50), nullable=False)
+    city:Mapped[str]= mapped_column(String(100), nullable=False)
+    postal_code:Mapped[str]= mapped_column(String(20), nullable=False)
+    street:Mapped[str]= mapped_column(String(100), nullable=False)
+    building_number:Mapped[str]= mapped_column(String(10), nullable=False)
+    website:Mapped[str]= mapped_column(String(100), nullable=True)
+    email:Mapped[str]= mapped_column(String(100), nullable=True)
+    phone_number:Mapped[str]= mapped_column(String(15), nullable=False)
