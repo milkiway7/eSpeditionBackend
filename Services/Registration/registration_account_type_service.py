@@ -13,7 +13,7 @@ from DataBase.Repositories.company_employees_repository import CompanyEmployeesR
 from DataBase.TableModels.CompanyEmployeesDbTableModel import CompanyEmployeesDbTableModel
 from Enums.account_type import AccountType
 from Enums.roles import Role
-
+from Exceptions.registration_exceptions import InvalidFinalTranzactionError
 class RegistrationAccountTypeService:
     def __init__(self, session):
         self.session = session
@@ -21,25 +21,28 @@ class RegistrationAccountTypeService:
     async def registration_account_type_orchestrator(
         self, registration_id: UUID, account_type: dict
     ):
-        async with self.session.begin():
-            registration_repo = RegistrationsRepository(self.session)
-            registration_to_update = await check_registration_exists(
-                registration_repo, registration_id
-            )
-            # check FSM
-            validate_transition(
-                registration_to_update.registration_status,
-                RegistrationStatus.ROLE_SELECTED,
-            )
-
-            if account_type.get("account_type") == "SHIPPER":
-                await self.final_transaction(
-                    registration_repo, registration_to_update, AccountType.SHIPPER
+        try: 
+            async with self.session.begin():
+                registration_repo = RegistrationsRepository(self.session)
+                registration_to_update = await check_registration_exists(
+                    registration_repo, registration_id
                 )
-            elif account_type.get("account_type") == "CARRIER":
-                print("c")
-            else:
-                print("ERROR, account type doesn't exsist")
+                # check FSM
+                validate_transition(
+                    registration_to_update.registration_status,
+                    RegistrationStatus.ROLE_SELECTED,
+                )
+
+                if account_type.get("account_type") == "SHIPPER":
+                    await self.final_transaction(
+                        registration_repo, registration_to_update, AccountType.SHIPPER
+                    )
+                elif account_type.get("account_type") == "CARRIER":
+                    print("c")
+                else:
+                    print("ERROR, account type doesn't exsist")
+        except Exception as e:
+            raise InvalidFinalTranzactionError(registration_to_update.id) 
         # There will be 2 options SHIPPER and CARRIER
         # For shipper this is final step- so i neet to update status to COMPLETED and save account type to SHIPPER
         # Then create transatcion for shipper
