@@ -1,16 +1,14 @@
 from sqlalchemy import String, DateTime, UniqueConstraint
-from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from sqlalchemy.orm import  Mapped, mapped_column
 from datetime import datetime
-
-Base = declarative_base()
+from .Base import Base
 
 class CompaniesDbTableModel(Base):
     __tablename__="companies"
 
     __table_args__ =(
         UniqueConstraint('nip', name='uq_company_nip'),
-        UniqueConstraint('vat_eu', name='uq_company_vat_eu'),
-        UniqueConstraint('company_name', name='uq_company_name'),
+        UniqueConstraint('name', name='uq_company_name'),
     )
 
     id:Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
@@ -23,6 +21,5 @@ class CompaniesDbTableModel(Base):
     postal_code:Mapped[str]= mapped_column(String(20), nullable=False)
     street:Mapped[str]= mapped_column(String(100), nullable=False)
     building_number:Mapped[str]= mapped_column(String(10), nullable=False)
-    website:Mapped[str]= mapped_column(String(100), nullable=True)
     email:Mapped[str]= mapped_column(String(100), nullable=True)
     phone_number:Mapped[str]= mapped_column(String(15), nullable=False)

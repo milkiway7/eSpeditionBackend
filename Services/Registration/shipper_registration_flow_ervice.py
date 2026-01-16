@@ -4,8 +4,8 @@ class ShipperRegistrationService:
                 self.repository = repository
         
         async def finalize_registration(self,registration_to_update: RegistrationsDbTableModel):
-                #transaction
-
+                
+                
                 #return JWT ? czy to wystarczy do bycia zalogowanym ?
                 
             pass

@@ -7,6 +7,18 @@ class UserRepository(BaseRepository[UserDbTableModel]):
     def __init__(self, session):
         super().__init__(session, UserDbTableModel)
     
+    async def create_from_registration(self, registration, account_type) -> UserDbTableModel:
+        user = UserDbTableModel(
+            email=registration.email,
+            password=registration.password,
+            name=registration.name,
+            surname=registration.surname,
+            phone_number=registration.user_phone,
+            account_type=account_type
+        )
+        self.session.add(user)
+        return user
+
     async def get_by_id(self, id: int):
         user = await self.filter(id=id)
         if not user:

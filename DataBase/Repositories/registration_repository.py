@@ -38,13 +38,9 @@ class RegistrationsRepository(BaseRepository[RegistrationsDbTableModel]):
         await self._commit()
         await self.session.refresh(registration_to_update)
         return registration_to_update
-    
-    async def final_transaction(self, registration_to_update: RegistrationsDbTableModel):
-        async with self.session.begin():
-            # 1. Create User
-            
-            # 2. Create Company
 
-            # 3. Update Registration
-            pass
-
+    async def final_registration_update(self, registration_to_update: RegistrationsDbTableModel, data: dict) -> RegistrationsDbTableModel:
+        for key, value in data.items():
+            setattr(registration_to_update, key, value)
+        self.session.add(registration_to_update)
+        return registration_to_update

@@ -1,14 +1,15 @@
-from sqlalchemy import String, DateTime
+from sqlalchemy import String, DateTime,UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.orm import declarative_base
 from datetime import datetime
-
-Base = declarative_base()
-
+from .Base import Base
 
 class UserDbTableModel(Base):
     __tablename__ = "users"
 
+    __table_args__ =(
+        UniqueConstraint('email', name='uq_user_email'),
+    )
+    
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, default=datetime.now

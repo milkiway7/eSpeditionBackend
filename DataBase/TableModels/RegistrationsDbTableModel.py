@@ -1,12 +1,11 @@
 from sqlalchemy import String, DateTime, Enum as SAEnum, UniqueConstraint
-from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
+from .Base import Base
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from datetime import datetime
 from Enums.registration_status import RegistrationStatus
 from Enums.account_type import AccountType
-
-Base = declarative_base()
 
 class RegistrationsDbTableModel(Base):
     __tablename__ = "registrations"
