@@ -22,7 +22,6 @@ class UserDbTableModel(Base):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     surname: Mapped[str] = mapped_column(String(100), nullable=False)
     phone_number: Mapped[str] = mapped_column(String(20), nullable=False)
-    account_type: Mapped[str] = mapped_column(String(40), nullable=False)
 
     # Relationships
     company_links: Mapped[list["CompanyEmployeesDbTableModel"]] = relationship(

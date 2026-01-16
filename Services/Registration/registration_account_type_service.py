@@ -62,12 +62,12 @@ class RegistrationAccountTypeService:
     ):
         user_repository = UserRepository(self.session)
         new_user = await user_repository.create_from_registration(
-            registration_to_update, account_type.value
+            registration_to_update
         )
         
         company_repository = CompaniesRepository(self.session)
         new_company = await company_repository.create_from_registration(
-            registration_to_update
+            registration_to_update, account_type.value
         )
         # Wyślij inserty bez comita żeby dostać Id
         await self.session.flush()
