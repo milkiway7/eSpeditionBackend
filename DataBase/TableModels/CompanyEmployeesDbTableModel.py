@@ -6,7 +6,7 @@ from Enums.roles import Role
 
 
 class CompanyEmployeesDbTableModel(Base):
-    __tablename__ = "company_users"
+    __tablename__ = "company_employees"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.now)

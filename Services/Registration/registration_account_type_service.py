@@ -92,3 +92,5 @@ class RegistrationAccountTypeService:
         await registration_repo.final_registration_update(
             registration_to_update, data_for_registration_update
         )
+
+        # Return JWT TOKEN bcs he will be already logged in
