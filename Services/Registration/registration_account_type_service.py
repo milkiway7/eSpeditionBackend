@@ -8,11 +8,11 @@ from DataBase.TableModels.RegistrationsDbTableModel import RegistrationsDbTableM
 from Enums.registration_status import RegistrationStatus
 from .shipper_registration_flow_ervice import ShipperRegistrationService
 from DataBase.Repositories.user_repository import UserRepository
-from DataBase.TableModels.UserDbTableModel import UserDbTableModel
 from DataBase.Repositories.companies_repository import CompaniesRepository
-from DataBase.TableModels.CompaniesDbTableModel import CompaniesDbTableModel
+from DataBase.Repositories.company_employees_repository import CompanyEmployeesRepository
+from DataBase.TableModels.CompanyEmployeesDbTableModel import CompanyEmployeesDbTableModel
 from Enums.account_type import AccountType
-
+from Enums.roles import Role
 
 class RegistrationAccountTypeService:
     def __init__(self, session):
@@ -64,12 +64,23 @@ class RegistrationAccountTypeService:
         new_user = await user_repository.create_from_registration(
             registration_to_update, account_type.value
         )
-        # Add item to company_users table
+        
         company_repository = CompaniesRepository(self.session)
         new_company = await company_repository.create_from_registration(
             registration_to_update
         )
-        
+        # Wyślij inserty bez comita żeby dostać Id
+        await self.session.flush()
+
+        company_employee_repository = CompanyEmployeesRepository(self.session)
+        await company_employee_repository.create_company_employee_link(
+            CompanyEmployeesDbTableModel(
+                company_id=new_company.id,
+                user_id=new_user.id,
+                role=Role.COMPANY_OWNER
+            )
+        )
+
         data_for_registration_update = {
             "account_type": account_type,
             "registration_status": RegistrationStatus.COMPLETED.value,
