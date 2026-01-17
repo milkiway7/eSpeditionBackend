@@ -53,3 +53,8 @@ async def select_account_type(registration_id: UUID, account_type: AccountType, 
     account_type_service = RegistrationAccountTypeService(session)
     response = await account_type_service.registration_account_type_orchestrator(registration_id,account_type.model_dump())
     return response
+
+@router.post("/registration/transport-licence/{registration_id}")
+async def add_transport_licence(registration_id: UUID, licence_number: str, session: AsyncSession = Depends(get_session)):
+    # Placeholder for transport licence handling
+    return {"message": "Transport licence handling not implemented yet"}

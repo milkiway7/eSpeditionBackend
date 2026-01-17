@@ -13,6 +13,7 @@ from DataBase.TableModels.CompanyEmployeesDbTableModel import CompanyEmployeesDb
 from Enums.account_type import AccountType
 from Enums.roles import Role
 from Exceptions.registration_exceptions import RegistrationAccountTypeError
+from Exceptions.domain_exceptions import ValidationError
 from Services.authentication_service import AuthenticationService,UserJWTData
 from Routes.Registration.registration_mapper import RegistrationMapper
 
@@ -52,7 +53,7 @@ class RegistrationAccountTypeService:
                     return {"Role selected": "CARRIER", 
                             "Registration details": registration_dto}
                 else:
-                    print("ERROR, account type doesn't exsist")
+                    raise ValidationError("Invalid account type provided")
         except Exception as e:
             raise RegistrationAccountTypeError(registration_to_update.id) 
 
