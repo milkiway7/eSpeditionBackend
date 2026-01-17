@@ -14,6 +14,8 @@ from DataBase.TableModels.CompanyEmployeesDbTableModel import CompanyEmployeesDb
 from Enums.account_type import AccountType
 from Enums.roles import Role
 from Exceptions.registration_exceptions import InvalidFinalTranzactionError
+from Services.authentication_service import AuthenticationService,UserJWTData
+
 class RegistrationAccountTypeService:
     def __init__(self, session):
         self.session = session
@@ -34,9 +36,10 @@ class RegistrationAccountTypeService:
                 )
 
                 if account_type.get("account_type") == "SHIPPER":
-                    await self.final_transaction(
+                    jwt_token = await self.final_transaction(
                         registration_repo, registration_to_update, AccountType.SHIPPER
                     )
+                    return jwt_token
                 elif account_type.get("account_type") == "CARRIER":
                     print("c")
                 else:
@@ -92,5 +95,14 @@ class RegistrationAccountTypeService:
         await registration_repo.final_registration_update(
             registration_to_update, data_for_registration_update
         )
-
-        # Return JWT TOKEN bcs he will be already logged in
+        auth_service = AuthenticationService()
+        user_jwt_data = auth_service.authenticate_after_registration(
+            UserJWTData(
+                sub=new_user.id,
+                email=new_user.email,
+                account_type=account_type.value,
+                role=Role.COMPANY_OWNER.value,
+                exp=None
+            )
+        )
+        return user_jwt_data
