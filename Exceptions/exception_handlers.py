@@ -12,7 +12,7 @@ from .domain_exceptions import (
 from .registration_exceptions import (
     KrsInactiveError,
     RegistrationNotFoundError,
-    InvalidFinalTranzactionError,
+    RegistrationAccountTypeError,
 )
 
 
@@ -63,9 +63,9 @@ def register_exception_handlers(app):
         get_logger().warning(f"Registration not found: {exc}")
         return JSONResponse(status_code=404, content={"detail": str(exc)})
     
-    @app.exception_handler(InvalidFinalTranzactionError)
+    @app.exception_handler(RegistrationAccountTypeError)
     async def invalid_final_tranzaction_error_handler(
-        request: Request, exc: InvalidFinalTranzactionError
+        request: Request, exc: RegistrationAccountTypeError
     ):
         get_logger().error(f"Invalid final transaction for registration: {exc}")
         return JSONResponse(status_code=500, content={"detail": str(exc)})

@@ -6,15 +6,15 @@ from Routes.Registration.registration_helpers import (
 from DataBase.Repositories.registration_repository import RegistrationsRepository
 from DataBase.TableModels.RegistrationsDbTableModel import RegistrationsDbTableModel
 from Enums.registration_status import RegistrationStatus
-from .shipper_registration_flow_ervice import ShipperRegistrationService
 from DataBase.Repositories.user_repository import UserRepository
 from DataBase.Repositories.companies_repository import CompaniesRepository
 from DataBase.Repositories.company_employees_repository import CompanyEmployeesRepository
 from DataBase.TableModels.CompanyEmployeesDbTableModel import CompanyEmployeesDbTableModel
 from Enums.account_type import AccountType
 from Enums.roles import Role
-from Exceptions.registration_exceptions import InvalidFinalTranzactionError
+from Exceptions.registration_exceptions import RegistrationAccountTypeError
 from Services.authentication_service import AuthenticationService,UserJWTData
+from Routes.Registration.registration_mapper import RegistrationMapper
 
 class RegistrationAccountTypeService:
     def __init__(self, session):
@@ -41,25 +41,20 @@ class RegistrationAccountTypeService:
                     )
                     return jwt_token
                 elif account_type.get("account_type") == "CARRIER":
-                    pass
                     # Update status to ROLE_SELECTED in Registrations table
+                    data_for_registration_update = {
+                        "account_type": AccountType.CARRIER,
+                        "registration_status": RegistrationStatus.ROLE_SELECTED.value,
+                    }
+                    registration_updated = await registration_repo.final_registration_update(
+                        registration_to_update,data_for_registration_update)
+                    registration_dto = RegistrationMapper.db_model_to_dto(registration_updated)
+                    return {"Role selected": "CARRIER", 
+                            "Registration details": registration_dto}
                 else:
                     print("ERROR, account type doesn't exsist")
         except Exception as e:
-            raise InvalidFinalTranzactionError(registration_to_update.id) 
-        # There will be 2 options SHIPPER and CARRIER
-        # For shipper this is final step- so i neet to update status to COMPLETED and save account type to SHIPPER
-        # Then create transatcion for shipper
-        # BEGIN TRANSACTION
-        # create company
-        # create user
-        # link user → company
-        # mark registration COMPLETED
-        # COMMIT
-        # Retrun JWT TOKEN bcs he will be already logged in
-
-        # For carrier update status to ROLE_SELECTED and save account type to CARRIER
-        # return RegistrationReadDTO
+            raise RegistrationAccountTypeError(registration_to_update.id) 
 
     async def final_transaction(
         self,
@@ -92,10 +87,10 @@ class RegistrationAccountTypeService:
             "account_type": account_type,
             "registration_status": RegistrationStatus.COMPLETED.value,
         }
-
         await registration_repo.final_registration_update(
             registration_to_update, data_for_registration_update
         )
+
         auth_service = AuthenticationService()
         user_jwt_data = auth_service.authenticate_after_registration(
             UserJWTData(
