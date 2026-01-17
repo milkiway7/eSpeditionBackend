@@ -25,6 +25,6 @@ class UserDbTableModel(Base):
 
     # Relationships
     company_links: Mapped[list["CompanyEmployeesDbTableModel"]] = relationship(
-        back_populates="user",
+        back_populates="user", # Users.company_links[i].user <-> ten sam User. Zmiana po jednej stronie widoczna w drugiej
         cascade="all, delete-orphan"
     )

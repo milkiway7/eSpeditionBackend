@@ -1,7 +1,7 @@
 from DataBase.TableModels.RegistrationsDbTableModel import RegistrationsDbTableModel
 from Routes.Registration.registration_dto import RegistrationStartDTO, RegistrationReadDTO
 from Enums.registration_status import RegistrationStatus
-from Helpers.password_encryption import hash_password
+from Services.password_encryption import hash_password
 
 class RegistrationMapper:
 

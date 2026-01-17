@@ -1,7 +1,7 @@
 from Routes.User.user_dto import DtoCreateUser, DtoReadUser
 from DataBase.TableModels.UserDbTableModel import UserDbTableModel
 from datetime import datetime
-from Helpers.password_encryption import hash_password
+from Services.password_encryption import hash_password
 
 class UserMapper:
 
