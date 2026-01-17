@@ -41,7 +41,8 @@ class RegistrationAccountTypeService:
                     )
                     return jwt_token
                 elif account_type.get("account_type") == "CARRIER":
-                    print("c")
+                    pass
+                    # Update status to ROLE_SELECTED in Registrations table
                 else:
                     print("ERROR, account type doesn't exsist")
         except Exception as e:

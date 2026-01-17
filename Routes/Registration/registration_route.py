@@ -51,5 +51,5 @@ async def add_company_details(registration_id: UUID, data: CompanyDetailsDTO, se
 @router.post("/registration/select-account-type/{registration_id}")
 async def select_account_type(registration_id: UUID, account_type: AccountType, session: AsyncSession = Depends(get_session)):
     account_type_service = RegistrationAccountTypeService(session)
-    jwt_token = await account_type_service.registration_account_type_orchestrator(registration_id,account_type.model_dump())
-    return jwt_token
+    response = await account_type_service.registration_account_type_orchestrator(registration_id,account_type.model_dump())
+    return response
