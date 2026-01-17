@@ -3,6 +3,7 @@ from Helpers.logger import get_logger
 from DataBase.TableModels.UserDbTableModel import Base
 from DataBase.TableModels.CompaniesDbTableModel import Base
 from DataBase.TableModels.RegistrationsDbTableModel import Base
+from DataBase.TableModels.CompanyEmployeesDbTableModel import Base
 import asyncio
 
 INITIALIZATION_DB_MAX_RETRIES = 3

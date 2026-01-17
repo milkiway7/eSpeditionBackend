@@ -5,7 +5,8 @@ ALLOWED_TRANSITIONS = {
         RegistrationStatus.DETAILS_COMPLETED
     },
     RegistrationStatus.DETAILS_COMPLETED: {
-        RegistrationStatus.ROLE_SELECTED
+        RegistrationStatus.ROLE_SELECTED, # For CARRIER STATUS 
+        RegistrationStatus.COMPLETED  # For SHIPPER STATUS 
     },
     RegistrationStatus.ROLE_SELECTED: {
         # CARRIER STATUS !!

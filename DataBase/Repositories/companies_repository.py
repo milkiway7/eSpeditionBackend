@@ -7,6 +7,22 @@ class CompaniesRepository(BaseRepository[CompaniesDbTableModel]):
     def __init__(self, session):
         super().__init__(session, CompaniesDbTableModel)
 
+    async def create_from_registration(self, registration, account_type) -> CompaniesDbTableModel:
+        company = CompaniesDbTableModel(
+            nip=registration.nip,
+            name=registration.company_name,
+            country=registration.company_country,
+            city=registration.company_city,
+            postal_code=registration.company_postal_code,
+            street=registration.company_street,
+            building_number=registration.company_building_number,
+            email=registration.company_email,
+            phone_number=registration.company_phone,
+            account_type=account_type
+        )
+        self.session.add(company)
+        return company
+    
     async def add_company(self, new_company: CompaniesDbTableModel) -> CompaniesDbTableModel:
         try:
             created_company = await self.add(new_company)

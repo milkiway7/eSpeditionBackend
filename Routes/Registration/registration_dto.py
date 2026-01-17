@@ -1,12 +1,12 @@
 import uuid
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 class RegistrationStartDTO(BaseModel):
     email: EmailStr
-    password: str
-    name: str
-    surname: str
-    nip: str
+    password: str= Field(min_length=7)
+    name: str= Field(min_length=2)
+    surname: str=Field(min_length=2)    
+    nip: str=Field(min_length=10, max_length=10)
     user_phone: str
 
 class RegistrationReadDTO(BaseModel):
@@ -22,3 +22,6 @@ class CompanyDetailsDTO(BaseModel):
     company_postal_code: str
     company_email: EmailStr
     company_phone: str
+
+class AccountType(BaseModel):
+    account_type: str

@@ -1,7 +1,7 @@
 from DataBase.TableModels.RegistrationsDbTableModel import RegistrationsDbTableModel
 from DataBase.Repositories.base_repository import BaseRepository
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy import select   
+from sqlalchemy.exc import IntegrityError,SQLAlchemyError
+from sqlalchemy import select
 from Exceptions.domain_exceptions import EntityAlreadyExistsError
 from uuid import UUID
 
@@ -38,4 +38,18 @@ class RegistrationsRepository(BaseRepository[RegistrationsDbTableModel]):
         await self._commit()
         await self.session.refresh(registration_to_update)
         return registration_to_update
-    
+
+    async def final_registration_update(self, registration_to_update: RegistrationsDbTableModel, data: dict) -> RegistrationsDbTableModel:
+        try:
+            for key, value in data.items():
+                setattr(registration_to_update, key, value)
+            self.session.add(registration_to_update)
+            return registration_to_update
+        except IntegrityError as e:
+            await self.session.rollback()
+            self.logger.error(e, exc_info=True)
+            raise
+        except SQLAlchemyError as e:
+            await self.session.rollback()
+            self.logger.error(e, exc_info=True)
+            raise

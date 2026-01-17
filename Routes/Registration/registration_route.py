@@ -1,16 +1,16 @@
 from uuid import UUID
 from fastapi import APIRouter, Depends
-from Routes.Registration.validate_registration_transition import validate_transition
+from Routes.Registration.registration_helpers import validate_transition, check_registration_exists
 from dependencies import get_session
 from sqlalchemy.ext.asyncio import AsyncSession
-from Routes.Registration.registration_dto import RegistrationStartDTO, CompanyDetailsDTO
+from Routes.Registration.registration_dto import RegistrationStartDTO, CompanyDetailsDTO, AccountType
 from DataBase.Repositories.companies_repository import CompaniesRepository
 from Exceptions.domain_exceptions import EntityAlreadyExistsError
-from Exceptions.registration_exceptions import RegistrationNotFoundError
 from Services.krs_verification_service import verify_company_by_nip
 from DataBase.Repositories.registration_repository import RegistrationsRepository
 from .registration_mapper import RegistrationMapper
 from Enums.registration_status import RegistrationStatus
+from Services.Registration.registration_account_type_service import RegistrationAccountTypeService
 
 router = APIRouter()
 
@@ -37,16 +37,24 @@ async def start_registration(registration_dto: RegistrationStartDTO, session: As
 async def add_company_details(registration_id: UUID, data: CompanyDetailsDTO, session: AsyncSession = Depends(get_session)):
     #check if registration exists by registration_id
     registrations_repo = RegistrationsRepository(session)
-    registration_to_update = await registrations_repo.get_by_registration_id(registration_id)
-    if not registration_to_update:
-        raise RegistrationNotFoundError(registration_id)
+    registration_to_update = await check_registration_exists(registrations_repo, registration_id)
     #check FSM
     data_dict = data.model_dump(exclude_unset=True)
-
     validate_transition(registration_to_update.registration_status, RegistrationStatus.DETAILS_COMPLETED)
-    
+
     # Save company details to registration table
     data_dict["registration_status"] = RegistrationStatus.DETAILS_COMPLETED
     updated_registration = await registrations_repo.update_company_details(registration_to_update, data_dict)
 
     return {"Company details added": RegistrationMapper.db_model_to_dto(updated_registration)}
+
+@router.post("/registration/select-account-type/{registration_id}")
+async def select_account_type(registration_id: UUID, account_type: AccountType, session: AsyncSession = Depends(get_session)):
+    account_type_service = RegistrationAccountTypeService(session)
+    response = await account_type_service.registration_account_type_orchestrator(registration_id,account_type.model_dump())
+    return response
+
+@router.post("/registration/transport-licence/{registration_id}")
+async def add_transport_licence(registration_id: UUID, licence_number: str, session: AsyncSession = Depends(get_session)):
+    # Placeholder for transport licence handling
+    return {"message": "Transport licence handling not implemented yet"}

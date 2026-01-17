@@ -1,15 +1,30 @@
-from sqlalchemy import Column, Integer, String, Numeric, Text, DateTime
-from sqlalchemy.orm import declarative_base
-
-Base = declarative_base()
+from sqlalchemy import String, DateTime,UniqueConstraint
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from datetime import datetime
+from .Base import Base
 
 class UserDbTableModel(Base):
-    __tablename__="users"
+    __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    created_at= Column(DateTime, nullable=False)
-    email= Column(String(100), unique=True, nullable=False)
-    password= Column(String(255), nullable=False)
-    name= Column(String(50), nullable=False)
-    surname= Column(String(50), nullable=False)
+    __table_args__ =(
+        UniqueConstraint('email', name='uq_user_email'),
+    )
+    
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, default=datetime.now
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=True, onupdate=datetime.now
+    )
+    email: Mapped[str] = mapped_column(String(100), nullable=False)
+    password: Mapped[str] = mapped_column(String(255), nullable=False)
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    surname: Mapped[str] = mapped_column(String(100), nullable=False)
+    phone_number: Mapped[str] = mapped_column(String(20), nullable=False)
 
+    # Relationships
+    company_links: Mapped[list["CompanyEmployeesDbTableModel"]] = relationship(
+        back_populates="user", # Users.company_links[i].user <-> ten sam User. Zmiana po jednej stronie widoczna w drugiej
+        cascade="all, delete-orphan"
+    )
