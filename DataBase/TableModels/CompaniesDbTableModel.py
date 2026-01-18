@@ -29,3 +29,7 @@ class CompaniesDbTableModel(Base):
         back_populates="company",
         cascade="all, delete-orphan"
     )
+    company_cars: Mapped[list["CompanyCarsDbTableModel"]] = relationship(
+        back_populates="company",
+        cascade="all, delete-orphan"
+    )
