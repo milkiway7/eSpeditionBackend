@@ -1,38 +1,38 @@
-2026-01-18 16:36:08 - root - INFO - Database initialization start
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - select current_schema()
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+2026-01-18 21:18:11 - root - INFO - Database initialization start
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - [generated in 0.00209s] ('users', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - [generated in 0.00160s] ('users', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - [cached since 0.01607s ago] ('companies', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - [cached since 0.01759s ago] ('companies', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - [cached since 0.01958s ago] ('registrations', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - [cached since 0.02208s ago] ('registrations', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - [cached since 0.02297s ago] ('company_employees', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_type.typname 
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - [cached since 0.02535s ago] ('company_employees', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_type.typname 
 FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_type.typnamespace 
 WHERE pg_catalog.pg_type.typname = $1::VARCHAR AND pg_catalog.pg_type_is_visible(pg_catalog.pg_type.oid) AND pg_catalog.pg_namespace.nspname != $2::VARCHAR
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - [generated in 0.00145s] ('registration_status', 'pg_catalog')
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_type.typname 
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - [generated in 0.00166s] ('registration_status', 'pg_catalog')
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_type.typname 
 FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_type.typnamespace 
 WHERE pg_catalog.pg_type.typname = $1::VARCHAR AND pg_catalog.pg_type_is_visible(pg_catalog.pg_type.oid) AND pg_catalog.pg_namespace.nspname != $2::VARCHAR
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - [cached since 0.05212s ago] ('account_type', 'pg_catalog')
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_type.typname 
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - [cached since 0.0126s ago] ('account_type', 'pg_catalog')
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_type.typname 
 FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_type.typnamespace 
 WHERE pg_catalog.pg_type.typname = $1::VARCHAR AND pg_catalog.pg_type_is_visible(pg_catalog.pg_type.oid) AND pg_catalog.pg_namespace.nspname != $2::VARCHAR
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - [cached since 0.09358s ago] ('role', 'pg_catalog')
-2026-01-18 16:36:08 - root - INFO - Database initialization success
-2026-01-18 16:36:08 - sqlalchemy.engine.Engine - INFO - COMMIT
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - [cached since 0.02138s ago] ('role', 'pg_catalog')
+2026-01-18 21:18:11 - root - INFO - Database initialization success
+2026-01-18 21:18:11 - sqlalchemy.engine.Engine - INFO - COMMIT
