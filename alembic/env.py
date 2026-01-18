@@ -12,7 +12,10 @@ from DataBase.TableModels.CompaniesDbTableModel import CompaniesDbTableModel
 from DataBase.TableModels.UserDbTableModel import UserDbTableModel
 from DataBase.TableModels.RegistrationsDbTableModel import RegistrationsDbTableModel
 from DataBase.TableModels.CompanyEmployeesDbTableModel import CompanyEmployeesDbTableModel
-from DataBase.TableModels.Cars.CompanyCarsDbTableModel import CompanyCarsDbTableModel
+from DataBase.TableModels.Vehicles.CompanyVehiclesDbTableModel import CompanyVehiclesDbTableModel
+from DataBase.TableModels.Vehicles.VehicleBodyTypesDbTableModel import VehicleBodyTypesDbTableModel
+from DataBase.TableModels.Vehicles.VehicleLoadingTypesDbTableModel import VehicleLoadingTypesDbTableModel
+from DataBase.TableModels.Vehicles.VehicleAdditionalOptionsDbTableModel import VehicleAdditionalOptionsDbTableModel
 
 # Alembic config
 config = context.config
