@@ -1,6 +1,7 @@
 from DataBase.TableModels.CompanyEmployeesDbTableModel import CompanyEmployeesDbTableModel
 from DataBase.Repositories.base_repository import BaseRepository
 from sqlalchemy.exc import IntegrityError,SQLAlchemyError
+from Exceptions.domain_exceptions import EntityNotFoundError
 
 class CompanyEmployeesRepository(BaseRepository[CompanyEmployeesDbTableModel]):
     def __init__(self, session):
@@ -18,4 +19,10 @@ class CompanyEmployeesRepository(BaseRepository[CompanyEmployeesDbTableModel]):
             await self.session.rollback()
             self.logger.error(e, exc_info=True)
             raise
+    
+    async def get_by_user_id(self, user_id: int) -> CompanyEmployeesDbTableModel:
+        result = await self.filter(user_id=user_id)
+        if not result:
+            raise EntityNotFoundError(f"Company employee link for user_id {user_id} not found")
+        return result[0]
     

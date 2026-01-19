@@ -16,6 +16,7 @@ from Exceptions.registration_exceptions import RegistrationAccountTypeError
 from Exceptions.domain_exceptions import ValidationError
 from Services.authentication_service import AuthenticationService,UserJWTData
 from Routes.Registration.registration_mapper import RegistrationMapper
+from datetime import datetime, timezone
 
 class RegistrationAccountTypeService:
     def __init__(self, session):
@@ -99,7 +100,8 @@ class RegistrationAccountTypeService:
                 email=new_user.email,
                 account_type=account_type.value,
                 role=Role.COMPANY_OWNER.value,
-                exp=None
+                company_id=new_company.id,
+                iat=int(datetime.now(timezone.utc).timestamp())
             )
         )
         return user_jwt_data

@@ -42,9 +42,8 @@ async def delete_user(user_id: int, session: AsyncSession = Depends(get_session)
     return {"User deleted:": UserMapper.read_model_to_dto(deleted_user)}
 
     
-# @router.post("/users/authenticate")
-# async def login_user(dto_user: DtoLoginUser, session: AsyncSession = Depends(get_session)):
-#     repo = UserRepository(session)
-#     return await AuthenticationService().authenticate(dto_user, repo)
+@router.post("/users/login")
+async def login_user(dto_user: DtoLoginUser, session: AsyncSession = Depends(get_session)):
+    return await AuthenticationService().authenticate(dto_user, session)
 
     

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
 class CreateVehicleDTO(BaseModel):
-    car_type: str = Field(min_length=2, max_length=50)
+    vehicle_type: str = Field(min_length=2, max_length=50)
     payload:int = Field(gt=0)
     pallet_capacity:int = Field(gt=0)
     mark: str | None = Field(min_length=1, max_length=50)
