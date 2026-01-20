@@ -15,7 +15,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_SECONDS = 1800
 
 class UserJWTData(BaseModel):
-    sub: int
+    sub: str
     email: str
     account_type: str
     # role: str
@@ -36,7 +36,7 @@ class AuthenticationService:
         companies_repo = CompaniesRepository(session)
         company = await companies_repo.get_by_id(company_employee.company_id)
         jwt_user = UserJWTData(
-            sub=user.id,
+            sub=str(user.id),
             email=user.email,
             account_type=company.account_type,
             # role=user.role,

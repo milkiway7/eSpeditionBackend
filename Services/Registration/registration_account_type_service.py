@@ -96,7 +96,7 @@ class RegistrationAccountTypeService:
         auth_service = AuthenticationService()
         user_jwt_data = auth_service.authenticate_after_registration(
             UserJWTData(
-                sub=new_user.id,
+                sub=str(new_user.id),
                 email=new_user.email,
                 account_type=account_type.value,
                 role=Role.COMPANY_OWNER.value,

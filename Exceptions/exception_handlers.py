@@ -14,7 +14,7 @@ from .registration_exceptions import (
     RegistrationNotFoundError,
     RegistrationAccountTypeError,
 )
-
+from .authorization_exceptions import AuthorizationException
 
 def register_exception_handlers(app):
     @app.exception_handler(EntityNotFoundError)
@@ -69,3 +69,8 @@ def register_exception_handlers(app):
     ):
         get_logger().error(f"Invalid final transaction for registration: {exc}")
         return JSONResponse(status_code=500, content={"detail": str(exc)})
+    
+    @app.exception_handler(AuthorizationException)
+    async def token_expired_error_handler(request: Request, exc: AuthorizationException):
+        get_logger().warning(f"Token expired: {exc}")
+        return JSONResponse(status_code=401, content={"detail": str(exc)})
