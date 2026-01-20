@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from dependencies import get_session
+from Dependencies.get_session import get_session
 from .vehicle_dto import CreateVehicleDTO
 from DataBase.Repositories.vehicle_repository import VehicleRepository
 

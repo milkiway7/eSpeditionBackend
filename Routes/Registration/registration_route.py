@@ -1,7 +1,7 @@
 from uuid import UUID
 from fastapi import APIRouter, Depends
 from Routes.Registration.registration_helpers import validate_transition, check_registration_exists
-from dependencies import get_session
+from Dependencies.get_session import get_session
 from sqlalchemy.ext.asyncio import AsyncSession
 from Routes.Registration.registration_dto import RegistrationStartDTO, CompanyDetailsDTO, AccountType
 from DataBase.Repositories.companies_repository import CompaniesRepository
