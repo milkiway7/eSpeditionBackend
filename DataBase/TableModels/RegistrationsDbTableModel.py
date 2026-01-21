@@ -5,7 +5,7 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from datetime import datetime
 from Enums.registration_status import RegistrationStatus
-from Enums.account_type import AccountType
+from Enums.company_type import CompanyType
 
 
 class RegistrationsDbTableModel(Base):
@@ -38,8 +38,8 @@ class RegistrationsDbTableModel(Base):
     registration_status: Mapped[RegistrationStatus] = mapped_column(
         SAEnum(RegistrationStatus, name="registration_status"), nullable=False
     )
-    account_type: Mapped[AccountType | None] = mapped_column(
-        SAEnum(AccountType, name="account_type"), nullable=True
+    account_type: Mapped[CompanyType | None] = mapped_column(
+        SAEnum(CompanyType, name="company_type"), nullable=True
     )
     company_country: Mapped[str | None] = mapped_column(String(100), nullable=True)
     company_city: Mapped[str | None] = mapped_column(String(100), nullable=True)

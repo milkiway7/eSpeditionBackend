@@ -10,7 +10,7 @@ from DataBase.Repositories.user_repository import UserRepository
 from DataBase.Repositories.companies_repository import CompaniesRepository
 from DataBase.Repositories.company_employees_repository import CompanyEmployeesRepository
 from DataBase.TableModels.CompanyEmployeesDbTableModel import CompanyEmployeesDbTableModel
-from Enums.account_type import AccountType
+from Enums.company_type import CompanyType
 from Enums.roles import Role
 from Exceptions.registration_exceptions import RegistrationAccountTypeError
 from Exceptions.domain_exceptions import ValidationError
@@ -39,13 +39,13 @@ class RegistrationAccountTypeService:
 
                 if account_type.get("account_type") == "SHIPPER":
                     jwt_token = await self.final_transaction(
-                        registration_repo, registration_to_update, AccountType.SHIPPER
+                        registration_repo, registration_to_update, CompanyType.SHIPPER
                     )
                     return jwt_token
                 elif account_type.get("account_type") == "CARRIER":
                     # Update status to ROLE_SELECTED in Registrations table
                     data_for_registration_update = {
-                        "account_type": AccountType.CARRIER,
+                        "account_type": CompanyType.CARRIER,
                         "registration_status": RegistrationStatus.ROLE_SELECTED.value,
                     }
                     registration_updated = await registration_repo.final_registration_update(
@@ -62,7 +62,7 @@ class RegistrationAccountTypeService:
         self,
         registration_repo: RegistrationsRepository,
         registration_to_update: RegistrationsDbTableModel,
-        account_type: AccountType,
+        company_type: CompanyType,
     ):
         user_repository = UserRepository(self.session)
         new_user = await user_repository.create_from_registration(
@@ -71,7 +71,7 @@ class RegistrationAccountTypeService:
         
         company_repository = CompaniesRepository(self.session)
         new_company = await company_repository.create_from_registration(
-            registration_to_update, account_type.value
+            registration_to_update, company_type.value
         )
         # Wyślij inserty bez comita żeby dostać Id
         await self.session.flush()
@@ -86,7 +86,7 @@ class RegistrationAccountTypeService:
         )
 
         data_for_registration_update = {
-            "account_type": account_type,
+            "account_type": company_type,
             "registration_status": RegistrationStatus.COMPLETED.value,
         }
         await registration_repo.final_registration_update(
@@ -98,7 +98,7 @@ class RegistrationAccountTypeService:
             UserJWTData(
                 sub=str(new_user.id),
                 email=new_user.email,
-                account_type=account_type.value,
+                account_type=company_type.value,
                 role=Role.COMPANY_OWNER.value,
                 company_id=new_company.id,
                 iat=int(datetime.now(timezone.utc).timestamp())
