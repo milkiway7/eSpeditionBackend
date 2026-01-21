@@ -17,7 +17,7 @@ ACCESS_TOKEN_EXPIRE_SECONDS = 1800
 class UserJWTData(BaseModel):
     sub: str
     email: str
-    account_type: str
+    company_type: str
     role: str
     company_id: int
     iat: int

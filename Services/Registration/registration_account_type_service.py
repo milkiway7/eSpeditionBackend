@@ -86,7 +86,7 @@ class RegistrationAccountTypeService:
         )
 
         data_for_registration_update = {
-            "account_type": company_type,
+            "company_type": company_type,
             "registration_status": RegistrationStatus.COMPLETED.value,
         }
         await registration_repo.final_registration_update(
@@ -98,8 +98,8 @@ class RegistrationAccountTypeService:
             UserJWTData(
                 sub=str(new_user.id),
                 email=new_user.email,
-                account_type=company_type.value,
-                role=role.value,
+                role=new_user.role,
+                company_type=company_type.value,
                 company_id=new_company.id,
                 iat=int(datetime.now(timezone.utc).timestamp())
             )

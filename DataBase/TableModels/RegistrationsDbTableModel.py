@@ -38,7 +38,7 @@ class RegistrationsDbTableModel(Base):
     registration_status: Mapped[RegistrationStatus] = mapped_column(
         SAEnum(RegistrationStatus, name="registration_status"), nullable=False
     )
-    account_type: Mapped[CompanyType | None] = mapped_column(
+    company_type: Mapped[CompanyType | None] = mapped_column(
         SAEnum(CompanyType, name="company_type"), nullable=True
     )
     company_country: Mapped[str | None] = mapped_column(String(100), nullable=True)
