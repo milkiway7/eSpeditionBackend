@@ -1,8 +1,9 @@
 from enum import Enum
 
 class Role(Enum):
-    COMPANY_OWNER = "COMPANY_OWNER" # Może dać ADMIN ?
-    EMPLOYEE = "EMPLOYEE"
-    DRIVER = "DRIVER"
-    DISPATCHER = "DISPATCHER" #Dyspozytor / logistyk
+    ADMIN = "ADMIN" 
+    SPEDITOR = "SPEDITOR"
+    SPEDITION_DRIVER = "SPEDITION_DRIVER"
+    PRIVATE_DRIVER = "PRIVATE_DRIVER" 
+    SHIPPER_ROLE = "SHIPPER_ROLE" 
     

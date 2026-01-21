@@ -39,7 +39,7 @@ class RegistrationAccountTypeService:
 
                 if account_type.get("account_type") == "SHIPPER":
                     jwt_token = await self.final_transaction(
-                        registration_repo, registration_to_update, CompanyType.SHIPPER
+                        registration_repo, registration_to_update, CompanyType.SHIPPER, Role.SHIPPER_ROLE
                     )
                     return jwt_token
                 elif account_type.get("account_type") == "CARRIER":
@@ -63,10 +63,11 @@ class RegistrationAccountTypeService:
         registration_repo: RegistrationsRepository,
         registration_to_update: RegistrationsDbTableModel,
         company_type: CompanyType,
+        role: Role
     ):
         user_repository = UserRepository(self.session)
         new_user = await user_repository.create_from_registration(
-            registration_to_update
+            registration_to_update, role.value
         )
         
         company_repository = CompaniesRepository(self.session)
@@ -80,8 +81,7 @@ class RegistrationAccountTypeService:
         await company_employee_repository.create_company_employee_link(
             CompanyEmployeesDbTableModel(
                 company_id=new_company.id,
-                user_id=new_user.id,
-                role=Role.COMPANY_OWNER
+                user_id=new_user.id
             )
         )
 
@@ -99,7 +99,7 @@ class RegistrationAccountTypeService:
                 sub=str(new_user.id),
                 email=new_user.email,
                 account_type=company_type.value,
-                role=Role.COMPANY_OWNER.value,
+                role=role.value,
                 company_id=new_company.id,
                 iat=int(datetime.now(timezone.utc).timestamp())
             )

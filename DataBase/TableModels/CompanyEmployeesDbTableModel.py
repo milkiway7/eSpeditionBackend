@@ -12,7 +12,6 @@ class CompanyEmployeesDbTableModel(Base):
     created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.now)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     company_id: Mapped[int] = mapped_column(ForeignKey("companies.id"), nullable=False)
-    role: Mapped[Role] = mapped_column(SAEnum(Role, name="role"), nullable=False)
     # Relationships
     user: Mapped["UserDbTableModel"] = relationship(
         back_populates="company_links"
