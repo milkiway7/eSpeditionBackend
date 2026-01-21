@@ -1,9 +1,8 @@
 from enum import Enum
 
-class Role(Enum):
+class UserRoles(Enum):
     ADMIN = "ADMIN" 
     SPEDITOR = "SPEDITOR"
-    SPEDITION_DRIVER = "SPEDITION_DRIVER"
-    PRIVATE_DRIVER = "PRIVATE_DRIVER" 
+    SPEDITION = "SPEDITION"
     SHIPPER_ROLE = "SHIPPER_ROLE" 
     

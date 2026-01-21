@@ -7,14 +7,14 @@ class UserRepository(BaseRepository[UserDbTableModel]):
     def __init__(self, session):
         super().__init__(session, UserDbTableModel)
     
-    async def create_from_registration(self, registration, role) -> UserDbTableModel:
+    async def create_from_registration(self, registration, user_role) -> UserDbTableModel:
         user = UserDbTableModel(
             email=registration.email,
             password=registration.password,
             name=registration.name,
             surname=registration.surname,
             phone_number=registration.user_phone,
-            role= role
+            user_role= user_role
         )
         self.session.add(user)
         return user

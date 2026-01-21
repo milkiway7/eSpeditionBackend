@@ -11,7 +11,7 @@ from DataBase.Repositories.companies_repository import CompaniesRepository
 from DataBase.Repositories.company_employees_repository import CompanyEmployeesRepository
 from DataBase.TableModels.CompanyEmployeesDbTableModel import CompanyEmployeesDbTableModel
 from Enums.company_type import CompanyType
-from Enums.roles import Role
+from Enums.user_roles import UserRoles
 from Exceptions.registration_exceptions import RegistrationAccountTypeError
 from Exceptions.domain_exceptions import ValidationError
 from Services.authentication_service import AuthenticationService,UserJWTData
@@ -39,7 +39,7 @@ class RegistrationAccountTypeService:
 
                 if account_type.get("account_type") == "SHIPPER":
                     jwt_token = await self.final_transaction(
-                        registration_repo, registration_to_update, CompanyType.SHIPPER, Role.SHIPPER_ROLE
+                        registration_repo, registration_to_update, CompanyType.SHIPPER, UserRoles.SHIPPER_ROLE
                     )
                     return jwt_token
                 elif account_type.get("account_type") == "CARRIER":
@@ -63,11 +63,11 @@ class RegistrationAccountTypeService:
         registration_repo: RegistrationsRepository,
         registration_to_update: RegistrationsDbTableModel,
         company_type: CompanyType,
-        role: Role
+        user_role: UserRoles
     ):
         user_repository = UserRepository(self.session)
         new_user = await user_repository.create_from_registration(
-            registration_to_update, role.value
+            registration_to_update, user_role.value
         )
         
         company_repository = CompaniesRepository(self.session)
@@ -98,7 +98,7 @@ class RegistrationAccountTypeService:
             UserJWTData(
                 sub=str(new_user.id),
                 email=new_user.email,
-                role=new_user.role,
+                user_role=new_user.user_role,
                 company_type=company_type.value,
                 company_id=new_company.id,
                 iat=int(datetime.now(timezone.utc).timestamp())

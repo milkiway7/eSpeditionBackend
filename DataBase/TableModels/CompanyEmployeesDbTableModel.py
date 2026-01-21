@@ -2,8 +2,6 @@ from sqlalchemy import String, ForeignKey, Enum as SAEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from DataBase.TableModels.Base import Base
 from datetime import datetime
-from Enums.roles import Role
-
 
 class CompanyEmployeesDbTableModel(Base):
     __tablename__ = "company_employees"

@@ -18,7 +18,7 @@ class UserJWTData(BaseModel):
     sub: str
     email: str
     company_type: str
-    role: str
+    user_role: str
     company_id: int
     iat: int
 
@@ -39,7 +39,7 @@ class AuthenticationService:
             sub=str(user.id),
             email=user.email,
             account_type=company.account_type,
-            role=user.role,
+            user_role=user.user_role,
             company_id=company_employee.company_id,
             iat=int(datetime.now(timezone.utc).timestamp())
         )
