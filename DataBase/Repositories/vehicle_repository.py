@@ -16,10 +16,10 @@ class VehicleRepository(BaseRepository[CompanyVehiclesDbTableModel]):
     def __init__(self, db_session):
         super().__init__(db_session, CompanyVehiclesDbTableModel)
 
-    async def add_vehicle(self, new_vehicle:CreateVehicleDTO) -> CompanyVehiclesDbTableModel:
+    async def add_vehicle(self, new_vehicle:CreateVehicleDTO, company_id: str) -> CompanyVehiclesDbTableModel:
         vehicle_data = new_vehicle.model_dump()
         vehicle_record = CompanyVehiclesDbTableModel(
-            company_id= 1,  # to be replaced with actual company_id
+            company_id=int(company_id),
             vehicle_type=vehicle_data.get('vehicle_type'),
             payload=vehicle_data.get('payload'),
             pallet_capacity=vehicle_data.get('pallet_capacity'),
@@ -41,9 +41,10 @@ class VehicleRepository(BaseRepository[CompanyVehiclesDbTableModel]):
         vehicle_record.additional_options = self._map_list_fields(vehicle_data.get(ADDITIONAL_OPTIONS_ATTRIBUTE),
                                                            VehicleAdditionalOptionsDbTableModel, 
                                                            ADDITIONAL_OPTIONS_ATTRIBUTE)
-        created_vehicle = await self.add(vehicle_record)
+        
+        await self.add(vehicle_record)
 
-        return created_vehicle
+        return vehicle_record
     
     def _map_list_fields(self, 
                          values: Iterable[str], 

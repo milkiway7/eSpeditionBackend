@@ -14,4 +14,21 @@ class CreateVehicleDTO(BaseModel):
     euro_class: str = Field(min_length=2, max_length=50)
     body_type: list[str] = Field(min_items=1)
     loading_type: list[str] = Field(min_items=1)
-    additional_options: list[str] | None
+    additional_option: list[str] | None
+
+class ReadVehicleDTO(CreateVehicleDTO):
+    id: int
+    vehicle_type: str
+    payload:int
+    pallet_capacity:int 
+    mark: str | None
+    model: str | None
+    year: int
+    trailer: bool
+    trailer_year: int
+    trailer_type: str
+    bitemp: bool
+    euro_class: str 
+    body_type: list[str]
+    loading_type: list[str]
+    additional_option: list[str] | None

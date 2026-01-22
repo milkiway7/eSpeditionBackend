@@ -24,28 +24,31 @@ class UserJWTData(BaseModel):
 
 class AuthenticationService:
     async def authenticate(self, user_dto: DtoLoginUser, session: AsyncSession):
-        repo = UserRepository(session)
-        user = await repo.get_by_email(user_dto.email)
+        try:
+            repo = UserRepository(session)
+            user = await repo.get_by_email(user_dto.email)
 
-        if not verify_password(user_dto.password, user.password):
-            raise UnauthorizedError("Invalid credentials")
-        # To get company_id
-        company_employees_repo = CompanyEmployeesRepository(session)
-        company_employee = await company_employees_repo.get_by_user_id(user.id)
-        # To get account_type
-        companies_repo = CompaniesRepository(session)
-        company = await companies_repo.get_by_id(company_employee.company_id)
-        jwt_user = UserJWTData(
-            sub=str(user.id),
-            email=user.email,
-            account_type=company.account_type,
-            user_role=user.user_role,
-            company_id=company_employee.company_id,
-            iat=int(datetime.now(timezone.utc).timestamp())
-        )
-        jwt_token = self.generate_jwt(jwt_user)
-        return {"access_token": jwt_token, "token_type": "bearer", "expires_in": ACCESS_TOKEN_EXPIRE_SECONDS}
-
+            if not verify_password(user_dto.password, user.password):
+                raise UnauthorizedError("Invalid credentials")
+            # To get company_id
+            company_employees_repo = CompanyEmployeesRepository(session)
+            company_employee = await company_employees_repo.get_by_user_id(user.id)
+            # To get account_type
+            companies_repo = CompaniesRepository(session)
+            company = await companies_repo.get_by_id(company_employee.company_id)
+            jwt_user = UserJWTData(
+                sub=str(user.id),
+                email=user.email,
+                company_type=company.company_type,
+                user_role=user.user_role,
+                company_id=company_employee.company_id,
+                iat=int(datetime.now(timezone.utc).timestamp())
+            )
+            jwt_token = self.generate_jwt(jwt_user)
+            return {"access_token": jwt_token, "token_type": "bearer", "expires_in": ACCESS_TOKEN_EXPIRE_SECONDS}
+        except Exception as e:
+            raise UnauthorizedError(f"Authentication failed. {e}") from e
+        
     def authenticate_after_registration(self, user: UserJWTData):
         jwt_token = self.generate_jwt(user)
         return {"access_token": jwt_token, "token_type": "bearer", "expires_in": ACCESS_TOKEN_EXPIRE_SECONDS}

@@ -15,8 +15,9 @@ def authorize_user(token: str = Depends(oauth2_scheme)):
         user_data = {
             "user_id": payload.get("sub"),
             "email": payload.get("email"),
-            "account_type": payload.get("account_type"),
+            "company_type": payload.get("company_type"),
             "company_id": payload.get("company_id"),
+            "user_role": payload.get("user_role"),
             "iat": payload.get("iat"),
             "exp": payload.get("exp")
         }
