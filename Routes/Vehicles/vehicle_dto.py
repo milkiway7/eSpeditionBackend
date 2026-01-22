@@ -17,7 +17,7 @@ class CreateVehicleDTO(BaseModel):
     additional_option: list[str] | None
 
 class ReadVehicleDTO(CreateVehicleDTO):
-    id: int
+    id: int | None
     vehicle_type: str
     payload:int
     pallet_capacity:int 
