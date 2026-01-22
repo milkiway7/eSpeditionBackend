@@ -48,7 +48,7 @@ class CompaniesRepository(BaseRepository[CompaniesDbTableModel]):
             raise EntityNotFoundError("Company", "company_name", company_name)
         return company
     
-    async def get_by_company_for_registration(self, nip: str) -> CompaniesDbTableModel:
+    async def get_by_nip_for_registration(self, nip: str) -> CompaniesDbTableModel:
         company = await self.filter(nip=nip)
         return company
     

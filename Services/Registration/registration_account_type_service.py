@@ -15,7 +15,7 @@ from Enums.user_roles import UserRoles
 from Exceptions.registration_exceptions import RegistrationAccountTypeError
 from Exceptions.domain_exceptions import ValidationError
 from Services.authentication_service import AuthenticationService,UserJWTData
-from Routes.Registration.registration_mapper import RegistrationMapper
+from Services.Registration.registration_mapper import RegistrationMapper
 from datetime import datetime, timezone
 
 class RegistrationAccountTypeService:
