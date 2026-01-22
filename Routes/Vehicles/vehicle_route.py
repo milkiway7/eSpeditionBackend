@@ -3,7 +3,7 @@ from Dependencies.get_session import get_session
 from .vehicle_dto import CreateVehicleDTO
 from DataBase.Repositories.vehicle_repository import VehicleRepository
 from Dependencies.authorize_user import authorize_user
-from Services.vehicle_service import VehicleService
+from Services.Vehicle.vehicle_service import VehicleService
 
 router = APIRouter()
 
