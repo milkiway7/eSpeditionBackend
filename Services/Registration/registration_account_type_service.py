@@ -1,8 +1,5 @@
 from uuid import UUID
-from Routes.Registration.registration_helpers import (
-    check_registration_exists,
-    validate_transition,
-)
+from Services.Registration.registration_helpers import check_registration_exists, validate_transition
 from DataBase.Repositories.registration_repository import RegistrationsRepository
 from DataBase.TableModels.RegistrationsDbTableModel import RegistrationsDbTableModel
 from Enums.registration_status import RegistrationStatus
@@ -29,7 +26,7 @@ class RegistrationAccountTypeService:
             async with self.session.begin():
                 registration_repo = RegistrationsRepository(self.session)
                 registration_to_update = await check_registration_exists(
-                    registration_repo, registration_id
+                    registration_id, registration_repo
                 )
                 # check FSM
                 validate_transition(
@@ -39,7 +36,7 @@ class RegistrationAccountTypeService:
 
                 if account_type.get("account_type") == "SHIPPER":
                     jwt_token = await self.final_transaction(
-                        registration_repo, registration_to_update, CompanyType.SHIPPER, UserRoles.SHIPPER_ROLE
+                        registration_repo, registration_to_update, CompanyType.SHIPPER, UserRoles.SHIPPER_ADMIN
                     )
                     return jwt_token
                 elif account_type.get("account_type") == "CARRIER":

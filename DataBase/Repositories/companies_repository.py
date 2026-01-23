@@ -8,20 +8,29 @@ class CompaniesRepository(BaseRepository[CompaniesDbTableModel]):
         super().__init__(session, CompaniesDbTableModel)
 
     async def create_from_registration(self, registration, company_type) -> CompaniesDbTableModel:
-        company = CompaniesDbTableModel(
-            nip=registration.nip,
-            name=registration.company_name,
-            country=registration.company_country,
-            city=registration.company_city,
-            postal_code=registration.company_postal_code,
-            street=registration.company_street,
-            building_number=registration.company_building_number,
-            email=registration.company_email,
-            phone_number=registration.company_phone,
-            company_type=company_type
-        )
-        self.session.add(company)
-        return company
+        try:
+            company = CompaniesDbTableModel(
+                nip=registration.nip,
+                name=registration.company_name,
+                country=registration.company_country,
+                city=registration.company_city,
+                postal_code=registration.company_postal_code,
+                street=registration.company_street,
+                building_number=registration.company_building_number,
+                email=registration.company_email,
+                phone_number=registration.company_phone,
+                company_type=company_type
+            )
+            self.session.add(company)
+            return company
+        except IntegrityError as e:
+            msg = str(e.orig)
+            if "uq_company_nip" in msg:
+                raise EntityAlreadyExistsError("Company", "nip", company.nip)
+            elif "uq_company_name" in msg:
+                raise EntityAlreadyExistsError("Company", "company_name", company.name)
+            else:
+                raise e
     
     async def add_company(self, new_company: CompaniesDbTableModel) -> CompaniesDbTableModel:
         try:

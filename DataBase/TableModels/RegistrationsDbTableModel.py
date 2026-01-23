@@ -13,9 +13,6 @@ class RegistrationsDbTableModel(Base):
 
     __table_args__ = (
         UniqueConstraint("registration_id", name="uq_registration_registration_id"),
-        UniqueConstraint("email", name="uq_registration_email"),
-        UniqueConstraint("nip", name="uq_registration_nip"),
-        UniqueConstraint("user_phone", name="uq_registration_user_phone"),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)

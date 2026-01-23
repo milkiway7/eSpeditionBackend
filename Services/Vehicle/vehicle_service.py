@@ -26,7 +26,7 @@ class VehicleService:
     ) -> ReadVehicleDTO:
         if user["company_type"] != "CARRIER":
             raise UnauthorizedError("Unauthorized access. To add a vehicle, user must have CARRIER account type.")
-        if user["user_role"] not in [UserRoles.SPEDITOR.value, UserRoles.ADMIN.value]:
+        if user["user_role"] not in [UserRoles.CARRIER_ADMIN.value, UserRoles.CARRIER_SPEDITOR.value]:
             raise UnauthorizedError("Unauthorized access. To add a vehicle, user must have SPEDITOR or ADMIN role.")
         
         vehicle = CompanyVehiclesDbTableModel(

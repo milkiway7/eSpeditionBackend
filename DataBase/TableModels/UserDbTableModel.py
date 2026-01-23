@@ -23,7 +23,7 @@ class UserDbTableModel(Base):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     surname: Mapped[str] = mapped_column(String(100), nullable=False)
     phone_number: Mapped[str] = mapped_column(String(20), nullable=False)
-    user_role: Mapped[UserRoles] = mapped_column(SAEnum(UserRoles), name="user_role", nullable=False)
+    user_role: Mapped[UserRoles] = mapped_column(SAEnum(UserRoles, name="user_role"), nullable=False)
 
     # Relationships
     company_links: Mapped[list["CompanyEmployeesDbTableModel"]] = relationship(
