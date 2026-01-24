@@ -18,3 +18,9 @@ async def get_vehicle(vehicle_id: int, session=Depends(get_session), user=Depend
     vehicle_service = VehicleService(VehicleRepository(session))
     vehicle_data = await vehicle_service.get_vehicle(vehicle_id, user)
     return {"vehicle": vehicle_data}
+
+@router.get("/vehicles/company")
+async def get_company_vehicles(session=Depends(get_session), user=Depends(authorize_user)):
+    vehicle_service = VehicleService(VehicleRepository(session))
+    vehicles_data = await vehicle_service.company_vehicles(user)
+    return {"company_vehicles": vehicles_data}

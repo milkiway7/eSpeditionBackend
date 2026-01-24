@@ -11,3 +11,6 @@ class VehicleRepository(BaseRepository[CompanyVehiclesDbTableModel]):
     async def get_by_id(self, vehicle_id: int) -> CompanyVehiclesDbTableModel | None:
         return await self.get(vehicle_id)
     
+    async def get_company_vehicles(self, company_id: int) -> list[CompanyVehiclesDbTableModel]:
+        return await self.filter(company_id=company_id)
+    

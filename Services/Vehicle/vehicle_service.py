@@ -3,7 +3,7 @@ from DataBase.TableModels.Vehicles.VehicleBodyTypesDbTableModel import VehicleBo
 from DataBase.TableModels.Vehicles.VehicleLoadingTypesDbTableModel import VehicleLoadingTypesDbTableModel
 from DataBase.TableModels.Vehicles.VehicleAdditionalOptionsDbTableModel import VehicleAdditionalOptionsDbTableModel
 from DataBase.Repositories.vehicle_repository import VehicleRepository
-from typing import TypeVar, Type, Iterable
+from typing import TypeVar, Type, Iterable, List
 from Exceptions.domain_exceptions import UnauthorizedError
 from Routes.Vehicles.vehicle_dto import ReadVehicleDTO, CreateVehicleDTO
 from Exceptions.domain_exceptions import UnauthorizedError, EntityNotFoundError
@@ -105,7 +105,42 @@ class VehicleService:
         )
 
         return response
-        
+
+    async def company_vehicles(self, user: dict) -> list[ReadVehicleDTO]:
+        if user["company_type"] != "CARRIER":
+            raise UnauthorizedError("Unauthorized access. To view a vehicle, user must have CARRIER account type.")
+        if user["user_role"] not in [UserRoles.CARRIER_ADMIN.value, UserRoles.CARRIER_SPEDITOR.value]:
+            raise UnauthorizedError("Unauthorized access. To view a vehicle, user must have SPEDITOR or ADMIN role.")
+        vehicles = await self.repo.get_company_vehicles(user["company_id"])
+
+        response = []
+
+        for vehicle in vehicles:
+            response.append(
+                        ReadVehicleDTO(
+                    id=vehicle.id,
+                    vehicle_type=vehicle.vehicle_type,
+                    payload=vehicle.payload,
+                    pallet_capacity=vehicle.pallet_capacity,
+                    mark=vehicle.mark,
+                    model=vehicle.model,
+                    year=vehicle.year,
+                    trailer=vehicle.trailer,
+                    trailer_year=vehicle.trailer_year,
+                    trailer_type=vehicle.trailer_type,
+                    bitemp=vehicle.bitemp,
+                    euro_class=vehicle.euro_class,
+                    body_type=[bt.body_type for bt in vehicle.body_types],
+                    loading_type=[lt.loading_type for lt in vehicle.loading_types],
+                    additional_option=[
+                        ao.additional_option for ao in vehicle.additional_options
+                    ],
+                )
+            )
+
+        return response
+
+
     def _map_list_fields(self, 
                          values: Iterable[str], 
                          model: Type[T], 
