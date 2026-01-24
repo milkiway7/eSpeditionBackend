@@ -28,13 +28,16 @@ class CompanyVehiclesDbTableModel(Base):
     )
     body_types: Mapped[list["VehicleBodyTypesDbTableModel"]] = relationship(
         back_populates="vehicle",
-        cascade="all, delete-orphan"
+        cascade="all, delete-orphan",
+        lazy="selectin"
     )
     loading_types: Mapped[list["VehicleLoadingTypesDbTableModel"]] = relationship(
         back_populates="vehicle",
-        cascade="all, delete-orphan"
+        cascade="all, delete-orphan",
+        lazy="selectin"
     )
     additional_options: Mapped[list["VehicleAdditionalOptionsDbTableModel"]] = relationship(
         back_populates="vehicle",
-        cascade="all, delete-orphan"
+        cascade="all, delete-orphan",
+        lazy="selectin"
     )

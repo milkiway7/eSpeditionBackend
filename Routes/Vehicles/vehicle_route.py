@@ -12,3 +12,9 @@ async def add_vehicle(vehicle: CreateVehicleDTO, session=Depends(get_session), u
     vehicle_service = VehicleService(VehicleRepository(session))
     vehicle_data = await vehicle_service.create_vehicle(vehicle, user)
     return {"message": "Vehicle added successfully", "vehicle": vehicle_data}
+
+@router.get("/vehicle/{vehicle_id}")
+async def get_vehicle(vehicle_id: int, session=Depends(get_session), user=Depends(authorize_user)):
+    vehicle_service = VehicleService(VehicleRepository(session))
+    vehicle_data = await vehicle_service.get_vehicle(vehicle_id, user)
+    return {"vehicle": vehicle_data}

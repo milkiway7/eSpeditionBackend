@@ -27,9 +27,11 @@ class CompaniesDbTableModel(Base):
 
     user_links: Mapped[list["CompanyEmployeesDbTableModel"]] = relationship(
         back_populates="company",
-        cascade="all, delete-orphan"
+        cascade="all, delete-orphan",
+        lazy="selectin"
     )
     company_vehicles: Mapped[list["CompanyVehiclesDbTableModel"]] = relationship(
         back_populates="company",
-        cascade="all, delete-orphan"
+        cascade="all, delete-orphan",
+        lazy="selectin"
     )

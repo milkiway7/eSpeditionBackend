@@ -8,4 +8,6 @@ class VehicleRepository(BaseRepository[CompanyVehiclesDbTableModel]):
     async def add_vehicle(self, add_vehicle: CompanyVehiclesDbTableModel) -> CompanyVehiclesDbTableModel:
         return await self.add(add_vehicle)
 
-        
+    async def get_by_id(self, vehicle_id: int) -> CompanyVehiclesDbTableModel | None:
+        return await self.get(vehicle_id)
+    
