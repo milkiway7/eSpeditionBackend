@@ -14,3 +14,7 @@ class VehicleRepository(BaseRepository[CompanyVehiclesDbTableModel]):
     async def get_company_vehicles(self, company_id: int) -> list[CompanyVehiclesDbTableModel]:
         return await self.filter(company_id=company_id)
     
+    async def update_vehicle(self, vehicle: CompanyVehiclesDbTableModel) -> CompanyVehiclesDbTableModel:
+        await self._commit()
+        return vehicle
+    

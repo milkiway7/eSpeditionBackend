@@ -8,7 +8,6 @@ class VehicleAdditionalOptionsDbTableModel(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now)
-    updated_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     vehicle_id: Mapped[int] = mapped_column(ForeignKey('company_vehicles.id'), nullable=False)
     additional_option: Mapped[str] = mapped_column(String(100), nullable=False)
     # Relationships
