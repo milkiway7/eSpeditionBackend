@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from Routes.Company.company_dto import DtoCreateCompany,DtoUpdateCompany
-from dependencies import get_session
+from Dependencies.get_session import get_session
 from DataBase.Repositories.companies_repository import CompaniesRepository
 from Routes.Company.company_mapper import CompaniesMapper
 

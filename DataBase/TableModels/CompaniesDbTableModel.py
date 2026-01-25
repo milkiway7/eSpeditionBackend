@@ -23,9 +23,15 @@ class CompaniesDbTableModel(Base):
     building_number:Mapped[str]= mapped_column(String(10), nullable=False)
     email:Mapped[str]= mapped_column(String(100), nullable=True)
     phone_number:Mapped[str]= mapped_column(String(15), nullable=False)
-    account_type: Mapped[str] = mapped_column(String(40), nullable=False)
+    company_type: Mapped[str] = mapped_column(String(40), nullable=False)
 
     user_links: Mapped[list["CompanyEmployeesDbTableModel"]] = relationship(
         back_populates="company",
-        cascade="all, delete-orphan"
+        cascade="all, delete-orphan",
+        lazy="selectin"
+    )
+    company_vehicles: Mapped[list["CompanyVehiclesDbTableModel"]] = relationship(
+        back_populates="company",
+        cascade="all, delete-orphan",
+        lazy="selectin"
     )
