@@ -18,3 +18,6 @@ class VehicleRepository(BaseRepository[CompanyVehiclesDbTableModel]):
         await self._commit()
         return vehicle
     
+    async def delete_vehicle(self, vehicle_id: int) -> CompanyVehiclesDbTableModel:
+        return await self.delete(vehicle_id)
+    

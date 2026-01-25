@@ -141,7 +141,7 @@ class VehicleService:
 
         return response
 
-    async def update_vehicle(self,user: dict, vehicle_id: int, dto: UpdateVehicleDTO) -> ReadVehicleDTO:
+    async def update_vehicle(self,user: dict, vehicle_id: int, dto: UpdateVehicleDTO) -> int:
         if user["company_type"] != "CARRIER":
             raise UnauthorizedError("Unauthorized access. To view a vehicle, user must have CARRIER account type.")
         if user["user_role"] not in [UserRoles.CARRIER_ADMIN.value, UserRoles.CARRIER_SPEDITOR.value]:
@@ -204,6 +204,18 @@ class VehicleService:
         
         return response
     
+    async def delete_vehicle(self, user:dict,vehicle_id: int):
+        if user["company_type"] != "CARRIER":
+            raise UnauthorizedError("Unauthorized access. To view a vehicle, user must have CARRIER account type.")
+        if user["user_role"] not in [UserRoles.CARRIER_ADMIN.value, UserRoles.CARRIER_SPEDITOR.value]:
+            raise UnauthorizedError("Unauthorized access. To view a vehicle, user must have SPEDITOR or ADMIN role.")
+        
+        vehicle = await self.repo.delete_vehicle(vehicle_id)
+
+        if not vehicle:
+            raise EntityNotFoundError("Vehicle", vehicle_id)
+        return vehicle.id
+
     def _map_list_fields(self, 
                          values: Iterable[str], 
                          model: Type[T], 

@@ -41,8 +41,8 @@ class ReadVehicleDTO(CreateVehicleDTO):
     model: str | None
     year: int
     trailer: bool
-    trailer_year: int
-    trailer_type: str
+    trailer_year: int | None
+    trailer_type: str | None
     bitemp: bool
     euro_class: str 
     body_type: list[str]
