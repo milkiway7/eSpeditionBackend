@@ -25,3 +25,6 @@ class CompanyDetailsDTO(BaseModel):
 
 class AccountType(BaseModel):
     account_type: str
+
+class TransportLicence(BaseModel):
+    transport_licence: str

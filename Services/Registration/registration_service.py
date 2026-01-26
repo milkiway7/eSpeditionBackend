@@ -1,14 +1,17 @@
 from DataBase.Repositories.registration_repository import RegistrationsRepository
 from DataBase.Repositories.companies_repository import CompaniesRepository
-from Exceptions.domain_exceptions import EntityAlreadyExistsError
+from Exceptions.domain_exceptions import EntityAlreadyExistsError, ValidationError
 from Routes.Registration.registration_dto import (AccountType, RegistrationStartDTO, RegistrationReadDTO, CompanyDetailsDTO)
 from Exceptions.domain_exceptions import EntityAlreadyExistsError
-from Services.Registration.registration_helpers import check_registration_exists,validate_transition
+from Services.Registration.registration_helpers import (check_registration_exists,
+                                                        validate_transition,
+                                                        final_transaction)
 from .krs_verification_service import verify_company_by_nip
 from .registration_mapper import RegistrationMapper
 from uuid import UUID
 from Enums.registration_status import RegistrationStatus
 from Enums.company_type import CompanyType
+from Enums.user_roles import UserRoles
 from .registration_account_type_service import RegistrationAccountTypeService
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -16,12 +19,7 @@ class RegistrationService:
     def __init__(self, repository:RegistrationsRepository):
         self.repository = repository
 
-    async def start_registration(self,registration_dto: RegistrationStartDTO, companies_repo: CompaniesRepository) -> RegistrationReadDTO:
-        # Check if company with NIP already exists in dB
-        existing_company = await companies_repo.get_by_nip_for_registration(registration_dto.nip)
-        if existing_company:
-            raise EntityAlreadyExistsError("Company", "nip", registration_dto.nip)
-        
+    async def start_registration(self,registration_dto: RegistrationStartDTO) -> RegistrationReadDTO: 
         # Check if company with NIP exists in API Wykazu podatników VAT
         company_data = await verify_company_by_nip(registration_dto.nip)
         company_name = company_data.model_dump().get("company_name")
@@ -47,6 +45,23 @@ class RegistrationService:
     async def select_company_type(self, registration_id: UUID, account_type: AccountType, session = AsyncSession):
         # Save company details to registration table
         account_type_service = RegistrationAccountTypeService(session)
-        response = await account_type_service.registration_account_type_orchestrator(registration_id,account_type.model_dump())
-        return response
+        jwt_token = await account_type_service.registration_account_type_orchestrator(registration_id,account_type.model_dump())
+        return jwt_token
     
+    async def transport_licence(self, registration_id: UUID, transport_licence: str, session: AsyncSession):
+        async with session.begin():
+            registration_to_update = await check_registration_exists(registration_id, self.repository)
+            #check FSM
+            validate_transition(registration_to_update.registration_status, RegistrationStatus.COMPLETED)
+
+            if not transport_licence:
+                raise ValidationError(f"Invalid transport licence: {transport_licence}")
+            
+            jwt_token = await final_transaction(session,
+                                                self.repository,
+                                                registration_to_update,
+                                                CompanyType.CARRIER,
+                                                UserRoles.CARRIER_ADMIN)
+            
+            return jwt_token
+

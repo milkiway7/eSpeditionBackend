@@ -1,19 +1,13 @@
 from uuid import UUID
-from Services.Registration.registration_helpers import check_registration_exists, validate_transition
+from Services.Registration.registration_helpers import (check_registration_exists, validate_transition, 
+                                                        final_transaction)
 from DataBase.Repositories.registration_repository import RegistrationsRepository
-from DataBase.TableModels.RegistrationsDbTableModel import RegistrationsDbTableModel
 from Enums.registration_status import RegistrationStatus
-from DataBase.Repositories.user_repository import UserRepository
-from DataBase.Repositories.companies_repository import CompaniesRepository
-from DataBase.Repositories.company_employees_repository import CompanyEmployeesRepository
-from DataBase.TableModels.CompanyEmployeesDbTableModel import CompanyEmployeesDbTableModel
 from Enums.company_type import CompanyType
 from Enums.user_roles import UserRoles
 from Exceptions.registration_exceptions import RegistrationAccountTypeError
 from Exceptions.domain_exceptions import ValidationError
-from Services.authentication_service import AuthenticationService,UserJWTData
 from Services.Registration.registration_mapper import RegistrationMapper
-from datetime import datetime, timezone
 
 class RegistrationAccountTypeService:
     def __init__(self, session):
@@ -35,8 +29,12 @@ class RegistrationAccountTypeService:
                 )
 
                 if account_type.get("account_type") == "SHIPPER":
-                    jwt_token = await self.final_transaction(
-                        registration_repo, registration_to_update, CompanyType.SHIPPER, UserRoles.SHIPPER_ADMIN
+                    jwt_token = await final_transaction(
+                        self.session, 
+                        registration_repo, 
+                        registration_to_update, 
+                        CompanyType.SHIPPER, 
+                        UserRoles.SHIPPER_ADMIN
                     )
                     return jwt_token
                 elif account_type.get("account_type") == "CARRIER":
@@ -55,50 +53,4 @@ class RegistrationAccountTypeService:
         except Exception as e:
             raise RegistrationAccountTypeError(registration_to_update.id) 
 
-    async def final_transaction(
-        self,
-        registration_repo: RegistrationsRepository,
-        registration_to_update: RegistrationsDbTableModel,
-        company_type: CompanyType,
-        user_role: UserRoles
-    ):
-        user_repository = UserRepository(self.session)
-        new_user = await user_repository.create_from_registration(
-            registration_to_update, user_role.value
-        )
-        
-        company_repository = CompaniesRepository(self.session)
-        new_company = await company_repository.create_from_registration(
-            registration_to_update, company_type.value
-        )
-        # Wyślij inserty bez comita żeby dostać Id
-        await self.session.flush()
-
-        company_employee_repository = CompanyEmployeesRepository(self.session)
-        await company_employee_repository.create_company_employee_link(
-            CompanyEmployeesDbTableModel(
-                company_id=new_company.id,
-                user_id=new_user.id
-            )
-        )
-
-        data_for_registration_update = {
-            "company_type": company_type,
-            "registration_status": RegistrationStatus.COMPLETED.value,
-        }
-        await registration_repo.final_registration_update(
-            registration_to_update, data_for_registration_update
-        )
-
-        auth_service = AuthenticationService()
-        user_jwt_data = auth_service.authenticate_after_registration(
-            UserJWTData(
-                sub=str(new_user.id),
-                email=new_user.email,
-                user_role=new_user.user_role,
-                company_type=company_type.value,
-                company_id=new_company.id,
-                iat=int(datetime.now(timezone.utc).timestamp())
-            )
-        )
-        return user_jwt_data
+    
