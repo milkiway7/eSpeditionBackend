@@ -1,14 +1,14 @@
 from sqlalchemy import String, DateTime, Integer, Boolean, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from DataBase.TableModels.Base import Base
-from datetime import datetime
+from datetime import datetime, timezone
 
 class CompanyVehiclesDbTableModel(Base):
     __tablename__ = "company_vehicles"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    created_at: Mapped[DateTime] = mapped_column(DateTime, nullable=False, default=datetime.now)
-    updated_at: Mapped[DateTime] = mapped_column(DateTime, nullable=True, onupdate=datetime.now)
+    created_at: Mapped[DateTime] = mapped_column(DateTime, nullable=False, default=datetime.now(timezone.utc))
+    updated_at: Mapped[DateTime] = mapped_column(DateTime, nullable=True, onupdate=datetime.now(timezone.utc))
     company_id: Mapped[int] = mapped_column(ForeignKey("companies.id"), nullable=False)
     vehicle_type: Mapped[str] = mapped_column(String(100), nullable=False)
     payload: Mapped[int] = mapped_column(Integer,nullable=False)

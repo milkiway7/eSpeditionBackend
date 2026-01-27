@@ -1,6 +1,6 @@
 from sqlalchemy import String, DateTime, UniqueConstraint
 from sqlalchemy.orm import  Mapped, mapped_column, relationship
-from datetime import datetime
+from datetime import datetime, timezone
 from .Base import Base
 
 class CompaniesDbTableModel(Base):
@@ -12,8 +12,8 @@ class CompaniesDbTableModel(Base):
     )
 
     id:Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    created_at:Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now)
-    updated_at:Mapped[datetime]= mapped_column(DateTime, nullable=True, onupdate=datetime.now)
+    created_at:Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now(timezone.utc))
+    updated_at:Mapped[datetime]= mapped_column(DateTime, nullable=True, onupdate=datetime.now(timezone.utc))
     nip:Mapped[str]= mapped_column(String(10), nullable=False)
     name:Mapped[str]= mapped_column(String(200), nullable=False)
     country:Mapped[str]= mapped_column(String(50), nullable=False)

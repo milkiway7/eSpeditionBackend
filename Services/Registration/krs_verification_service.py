@@ -1,6 +1,6 @@
 import httpx
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from Exceptions.domain_exceptions import EntityNotFoundError, ExternalServiceUnavailable
 from Exceptions.registration_exceptions import KrsInactiveError
 from pydantic import BaseModel
@@ -12,7 +12,7 @@ class CompanyKrsVerificationDTO(BaseModel):
     nip: str
 
 async def verify_company_by_nip(nip: str) -> CompanyKrsVerificationDTO:
-    current_date = datetime.now().strftime("%Y-%m-%d")
+    current_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     async with httpx.AsyncClient(
         headers={"Accept": "application/json"},
         base_url=os.getenv("KRS_VERIFICATION_URL"),
