@@ -6,6 +6,11 @@ from DataBase.Repositories.companies_repository import CompaniesRepository
 from Routes.Company.company_mapper import CompaniesMapper
 
 router = APIRouter()
+#
+# 
+# TO BYŁO WCZEŚNIEJ ZROBIONE ZOSTAWIAM BO MOŻE COŚ SIĘ PRZYDA
+#
+#
 
 @router.post("/companies/create")
 async def create_company(company: DtoCreateCompany, session: AsyncSession = Depends(get_session)):

@@ -7,7 +7,7 @@ class RegistrationStartDTO(BaseModel):
     name: str= Field(min_length=2)
     surname: str=Field(min_length=2)    
     nip: str=Field(min_length=10, max_length=10)
-    user_phone: str
+    user_phone: str=Field(min_length=9)
 
 class RegistrationReadDTO(BaseModel):
     registration_id: uuid.UUID

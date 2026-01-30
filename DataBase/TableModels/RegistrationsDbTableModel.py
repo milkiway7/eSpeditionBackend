@@ -20,10 +20,10 @@ class RegistrationsDbTableModel(Base):
         UUID(as_uuid=True), nullable=False, default=uuid.uuid4
     )
     created_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, default=datetime.now(timezone.utc)
+        DateTime(timezone=True), nullable=False, default=datetime.now(timezone.utc)
     )
     updated_at: Mapped[datetime | None] = mapped_column(
-        DateTime, nullable=True, onupdate=datetime.now(timezone.utc)
+        DateTime(timezone=True), nullable=True, onupdate=datetime.now(timezone.utc)
     )
     email: Mapped[str] = mapped_column(String(255), nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)

@@ -7,14 +7,15 @@ class UserRepository(BaseRepository[UserDbTableModel]):
     def __init__(self, session):
         super().__init__(session, UserDbTableModel)
     
-    async def create_from_registration(self, registration, user_role) -> UserDbTableModel:
+    async def create_from_registration(self, registration, user_role, is_active) -> UserDbTableModel:
         user = UserDbTableModel(
             email=registration.email,
             password=registration.password,
             name=registration.name,
             surname=registration.surname,
             phone_number=registration.user_phone,
-            user_role= user_role
+            user_role= user_role,
+            is_active=is_active
         )
         self.session.add(user)
         return user
@@ -28,7 +29,7 @@ class UserRepository(BaseRepository[UserDbTableModel]):
     async def get_by_email(self, email: str):
         user = await self.filter(email=email)
         if not user:
-            raise EntityNotFoundError("User",email)
+            return []
         return user[0]
     
     async def add_user(self, new_user: UserDbTableModel):

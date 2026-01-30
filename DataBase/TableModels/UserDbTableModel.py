@@ -20,10 +20,10 @@ class UserDbTableModel(Base):
     
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     created_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, default=datetime.now(timezone.utc)
+        DateTime(timezone=True), nullable=False, default=datetime.now(timezone.utc)
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, nullable=True, onupdate=datetime.now(timezone.utc)
+        DateTime(timezone=True), nullable=True, onupdate=datetime.now(timezone.utc)
     )
     email: Mapped[str] = mapped_column(String(100), nullable=False)
     password: Mapped[str] = mapped_column(String(255), nullable=True)
@@ -38,8 +38,9 @@ class UserDbTableModel(Base):
         cascade="all, delete-orphan",
         lazy="selectin"
     )
+    
     user_activation_link: Mapped[list["UserActivationTokensDbTableModel"]] = relationship(
-        back_populates="user_link",
+        back_populates="user",
         cascade="all, delete-orphan",
         lazy="selectin"
     )

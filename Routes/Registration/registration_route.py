@@ -6,27 +6,27 @@ from Routes.Registration.registration_dto import RegistrationStartDTO, CompanyDe
 from DataBase.Repositories.registration_repository import RegistrationsRepository
 from Services.Registration.registration_service import RegistrationService
 
-router = APIRouter()
+router = APIRouter(prefix="/registration")
 
-@router.post("/registration/start")
+@router.post("/start")
 async def start_registration(registration_dto: RegistrationStartDTO, session: AsyncSession = Depends(get_session)):
     registration_service = RegistrationService(RegistrationsRepository(session))
     registration_data = await registration_service.start_registration(registration_dto)
     return {"Registration started:": registration_data}
 
-@router.post("/registration/company-details/{registration_id}")
+@router.post("/company-details/{registration_id}")
 async def add_company_details(registration_id: UUID, data: CompanyDetailsDTO, session: AsyncSession = Depends(get_session)):
     registration_service = RegistrationService(RegistrationsRepository(session))
     registration_data = await registration_service.add_company_details(registration_id, data)
     return {"Company details added": registration_data}
 
-@router.post("/registration/select-company-type/{registration_id}")
+@router.post("/select-company-type/{registration_id}")
 async def select_company_type(registration_id: UUID, account_type: AccountType, session: AsyncSession = Depends(get_session)):
     registration_service = RegistrationService(RegistrationsRepository(session))
     registration_data = await registration_service.select_company_type(registration_id, account_type, session)
     return registration_data
 
-@router.post("/registration/transport-licence/{registration_id}")
+@router.post("/transport-licence/{registration_id}")
 async def add_transport_licence(registration_id: UUID, transport_licence: TransportLicence, session: AsyncSession = Depends(get_session)):
     # Placeholder for transport licence handling
     registration_service = RegistrationService(RegistrationsRepository(session))

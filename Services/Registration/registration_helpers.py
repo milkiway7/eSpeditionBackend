@@ -34,7 +34,7 @@ async def final_transaction(
     ):
         user_repository = UserRepository(session)
         new_user = await user_repository.create_from_registration(
-            registration_to_update, user_role.value
+            registration_to_update, user_role.value, is_active=True
         )
         
         company_repository = CompaniesRepository(session)

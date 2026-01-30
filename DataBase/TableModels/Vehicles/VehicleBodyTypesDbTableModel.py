@@ -7,7 +7,7 @@ class VehicleBodyTypesDbTableModel(Base):
     __tablename__ = 'vehicle_body_types'
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now(timezone.utc))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=datetime.now(timezone.utc))
     vehicle_id: Mapped[int] = mapped_column(ForeignKey('company_vehicles.id'), nullable=False)
     body_type: Mapped[str] = mapped_column(String(100), nullable=False)
     # Relationships

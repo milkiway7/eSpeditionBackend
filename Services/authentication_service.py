@@ -27,9 +27,12 @@ class AuthenticationService:
         try:
             repo = UserRepository(session)
             user = await repo.get_by_email(user_dto.email)
-
+            
+            if not user.is_active:
+                raise UnauthorizedError("User is not active.")
+            
             if not verify_password(user_dto.password, user.password):
-                raise UnauthorizedError("Invalid credentials")
+                raise UnauthorizedError("Invalid credentials.")
             # To get company_id
             company_employees_repo = CompanyEmployeesRepository(session)
             company_employee = await company_employees_repo.get_by_user_id(user.id)

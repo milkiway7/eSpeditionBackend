@@ -16,6 +16,7 @@ from DataBase.TableModels.Vehicles.CompanyVehiclesDbTableModel import CompanyVeh
 from DataBase.TableModels.Vehicles.VehicleBodyTypesDbTableModel import VehicleBodyTypesDbTableModel
 from DataBase.TableModels.Vehicles.VehicleLoadingTypesDbTableModel import VehicleLoadingTypesDbTableModel
 from DataBase.TableModels.Vehicles.VehicleAdditionalOptionsDbTableModel import VehicleAdditionalOptionsDbTableModel
+from DataBase.TableModels.UserActivationTokensDbTableModel import UserActivationTokensDbTableModel
 
 # Alembic config
 config = context.config
